@@ -6,37 +6,3 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
-
-model model {
-  id              String       @id @db.VarChar(30)
-  name            String       @db.VarChar(50)
-  model_series_id String       @db.VarChar(30)
-  year            Int?
-  vehicle_id      Int?
-  model_series    model_series @relation(fields: [model_series_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_model_model_series")
-
-  @@index([model_series_id], map: "fki_fk_model_model_series")
-}
-
-model model_brand {
-  id           String         @id @db.VarChar(30)
-  name         String         @db.VarChar(50)
-  model_series model_series[]
-}
-
-model model_series {
-  id             String      @id @db.VarChar(30)
-  name           String      @db.VarChar(50)
-  model_brand_id String      @db.VarChar(30)
-  model          model[]
-  model_brand    model_brand @relation(fields: [model_brand_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_model_series_model_brand")
-
-  @@index([model_brand_id], map: "fki_fk_model_series_model_brand")
-}
-
-model vehicle {
-  id                      String @id @db.VarChar(30)
-  vehicle_model_id        String @db.VarChar(50)
-  vehicle_manufacturer_id String @db.VarChar(30)
-  year                    Int
-}
