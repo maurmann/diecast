@@ -1,23 +1,23 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Models from './models';
-import Title from './title';
-import Toolbar from './toolbar';
+import { Text } from '@chakra-ui/react'
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Layout from "./views/Layout.js";
+import Home from "./views/Home.js";
+import Models from "./views/Models.js";
+import Vehicles from "./views/Vehicles.js";
+import Error404 from "./views/Error404.js";
 
 function App() {
   return (
-    <Container>
-      <Row>
-        <Col>
-          <Title></Title>
-          <Toolbar></Toolbar>
-          <Models></Models>
-        </Col>
-      </Row>
-    </Container >
-
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Home />} />
+          <Route path="models" element={<Models />} />
+          <Route path="vehicles" element={<Vehicles />} />
+          <Route path="*" element={<Error404 />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
