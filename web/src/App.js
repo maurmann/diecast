@@ -1,8 +1,7 @@
-import { Text } from '@chakra-ui/react'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./views/Layout.js";
 import Home from "./views/Home.js";
-import Models from "./views/Models.js";
+import Models from "./views/Models/ModelsList.js";
 import Vehicles from "./views/Vehicles.js";
 import Error404 from "./views/Error404.js";
 

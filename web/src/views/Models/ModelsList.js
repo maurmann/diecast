@@ -1,9 +1,9 @@
-import { Card, CardBody, Table, Th, Tr, Thead, Tbody, Td, IconButton } from "@chakra-ui/react";
+import { Card, CardBody, Table, Th, Tr, Thead, Tbody, Td, IconButton, Stack, Button, Box } from "@chakra-ui/react";
 import { EditIcon, DeleteIcon } from '@chakra-ui/icons';
-import PageTitle from "../components/PageTitle";
+import PageTitle from "../../components/PageTitle";
 import { useEffect, useState } from "react";
 
-const Models = () => {
+const ModelsList = () => {
 
     const [data, setData] = useState([]);
 
@@ -24,6 +24,14 @@ const Models = () => {
     return (
         <div>
             <PageTitle Title="Models" SubTitle="List with all models"></PageTitle>
+
+            <Box marginTop={'8px'} marginBottom={'8px'}>
+                <Stack direction={'row'} spacing={2}>
+                    <Button colorScheme='green' size='sm'>New Model</Button>
+                    <Button colorScheme='blue' size='sm'>Apply Filters</Button>
+                </Stack>
+            </Box>
+
             <Card>
                 <CardBody>
                     <Table variant='simple'>
@@ -64,4 +72,4 @@ const Models = () => {
     )
 };
 
-export default Models;
+export default ModelsList;
