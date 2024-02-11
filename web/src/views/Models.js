@@ -1,9 +1,29 @@
-import { Card, CardBody, Table, Th, Tr, Thead, Tbody, Td, Heading } from "@chakra-ui/react";
-const Models = () => {
-    return (
-        <div>
+import { Card, CardBody, Table, Th, Tr, Thead, Tbody, Td } from "@chakra-ui/react";
+import PageTitle from "../components/PageTitle";
+import { useEffect, useState } from "react";
 
-            <Heading size='md'>Models</Heading>
+const Models = () => {
+
+    const [data, setData] = useState([]);
+
+    useEffect(() => {
+        fetch("http://localhost:3001/models",
+            {
+                method: "GET"
+
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                setData(data);
+                console.log(data);
+            })
+    }, []);
+
+
+
+    return (
+        data && <div>
+            <PageTitle Title="Models" SubTitle="List of Models"></PageTitle>
 
             <Card>
                 <CardBody>
@@ -22,31 +42,25 @@ const Models = () => {
                             </Tr>
                         </Thead>
                         <Tbody>
-                            <Tr>
-                                <Td>inches</Td>
-                                <Td>millimetres (mm)</Td>
-                                <Td isNumeric>25.4</Td>
-                            </Tr>
-                            <Tr>
-                                <Td>feet</Td>
-                                <Td>centimetres (cm)</Td>
-                                <Td isNumeric>30.48</Td>
-                            </Tr>
-                            <Tr>
-                                <Td>yards</Td>
-                                <Td>metres (m)</Td>
-                                <Td isNumeric>0.91444</Td>
-                            </Tr>
+                            {data.map((d) => {
+                                return (
+                                    <Tr>
+                                        <Td>{d.name}</Td>
+                                        <Td>{d.modelBrand.name}</Td>
+                                        <Td>{d.modelSeries.name}</Td>
+                                        <Td>{d.vehicle.name}</Td>
+                                        <Td>{d.vehicle.vehicleManufacturer.name}</Td>
+                                        <Td>{d.vehicle.vehicleManufacturer.country}</Td>
+                                        <Td>Pickup</Td>
+                                    </Tr>
+                                )
+                            })}
                         </Tbody>
                     </Table>
 
                 </CardBody>
             </Card>
-
-
         </div >
-
-
     )
 };
 
