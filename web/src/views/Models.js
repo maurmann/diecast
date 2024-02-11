@@ -1,4 +1,5 @@
-import { Card, CardBody, Table, Th, Tr, Thead, Tbody, Td } from "@chakra-ui/react";
+import { Card, CardBody, Table, Th, Tr, Thead, Tbody, Td, IconButton } from "@chakra-ui/react";
+import { EditIcon, DeleteIcon } from '@chakra-ui/icons';
 import PageTitle from "../components/PageTitle";
 import { useEffect, useState } from "react";
 
@@ -12,33 +13,31 @@ const Models = () => {
                 method: "GET"
 
             })
-            .then((response) => response.json())
+            .then((response) =>
+                response.json())
             .then((data) => {
                 setData(data);
                 console.log(data);
             })
     }, []);
 
-
-
     return (
-        data && <div>
-            <PageTitle Title="Models" SubTitle="List of Models"></PageTitle>
-
+        <div>
+            <PageTitle Title="Models" SubTitle="List with all models"></PageTitle>
             <Card>
                 <CardBody>
-
                     <Table variant='simple'>
-
                         <Thead>
                             <Tr>
                                 <Th>Model</Th>
-                                <Th>Model Brand</Th>
-                                <Th>Model Series</Th>
+                                <Th>Brand</Th>
+                                <Th>Series</Th>
                                 <Th>Vehicle</Th>
-                                <Th>Vehicle Manufacturer</Th>
-                                <Th>Vehicle Origin</Th>
-                                <Th>Vehicle Category</Th>
+                                <Th>Manufacturer</Th>
+                                <Th>Origin</Th>
+                                <Th>Category</Th>
+                                <Th>Edit</Th>
+                                <Th>Delete</Th>
                             </Tr>
                         </Thead>
                         <Tbody>
@@ -52,12 +51,13 @@ const Models = () => {
                                         <Td>{d.vehicle.vehicleManufacturer.name}</Td>
                                         <Td>{d.vehicle.vehicleManufacturer.country}</Td>
                                         <Td>Pickup</Td>
+                                        <Td><IconButton isRound={false} colorScheme="blue" variant='outline' icon={<EditIcon />} /></Td>
+                                        <Td><IconButton isRound={false} colorScheme="blue" variant='outline' icon={<DeleteIcon />} /></Td>
                                     </Tr>
                                 )
                             })}
                         </Tbody>
                     </Table>
-
                 </CardBody>
             </Card>
         </div >

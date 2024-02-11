@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import { Injectable } from "@nestjs/common";
-import { model_brand } from '@prisma/client';
+import { modelBrand } from '@prisma/client';
 import { PrismaService } from "src/prisma.service";
 
 @Injectable()
@@ -9,16 +9,16 @@ export class ModelBrandService {
     constructor(private prisma: PrismaService) { }
 
     async getAll()
-        : Promise<model_brand[]> {
+        : Promise<modelBrand[]> {
         return this.prisma
-            .model_brand
+            .modelBrand
             .findMany();
     }
 
-    async getById(id: string)
-        : Promise<model_brand | null> {
+    async getById(id: number)
+        : Promise<modelBrand | null> {
         return this.prisma
-            .model_brand
+            .modelBrand
             .findUnique({
                 where: { id }
             })

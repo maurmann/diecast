@@ -6,3 +6,51 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model model {
+  id          Int          @id(map: "pk_model") @default(autoincrement())
+  name        String       @db.VarChar(50)
+  brand_id    Int
+  series_id   Int?
+  vehicle_id  Int?
+  modelBrand  modelBrand   @relation(fields: [brand_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  modelSeries modelSeries? @relation(fields: [series_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  vehicle     vehicle?     @relation(fields: [vehicle_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model modelBrand {
+  id           Int           @id(map: "pk_brand") @default(autoincrement())
+  name         String        @db.VarChar(50)
+  model        model[]
+  model_series modelSeries[]
+
+  @@map("model_brand")
+}
+
+model modelSeries {
+  id             Int         @id(map: "pk_series") @default(autoincrement())
+  name           String      @db.VarChar(50)
+  model_brand_id Int?
+  model          model[]
+  model_brand    modelBrand? @relation(fields: [model_brand_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@map("model_series")
+}
+
+model vehicle {
+  id                      Int                 @id(map: "pk_vehicle") @default(autoincrement())
+  name                    String              @db.VarChar(50)
+  vehicle_manufacturer_id Int
+  year_of_production      Int?                @db.SmallInt
+  vehicleManufacturer     vehicleManufacturer @relation(fields: [vehicle_manufacturer_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  models                  model[]
+}
+
+model vehicleManufacturer {
+  id       Int       @id @default(autoincrement())
+  name     String    @db.VarChar
+  country  String?   @db.VarChar
+  vehicles vehicle[]
+
+  @@map("vehicle_manufacturer")
+}

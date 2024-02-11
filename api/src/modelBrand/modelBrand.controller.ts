@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Param, ParseIntPipe } from '@nestjs/common';
 import { ModelBrandService } from './modelBrand.service';
 
 
@@ -9,22 +9,14 @@ export class ModelBrandController {
     }
 
     @Get("/:id")
-    async getById(@Param("id") id: string) {
-
+    async getById(@Param("id", ParseIntPipe) id: number) {
         const modelBrand = await this.modelBrandService.getById(id);
         return modelBrand;
     }
 
-
     @Get()
     async getAll() {
-
         const modelBrands = await this.modelBrandService.getAll();
         return modelBrands;
-
-        const mb = [{ id: 1, name: "a" }, { id: 2, name: "c" }];
-        return mb;
-
     }
-
 }

@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import { Injectable } from "@nestjs/common";
-import { model } from "@prisma/client";
+import { model } from '@prisma/client';
 import { PrismaService } from "src/prisma.service";
 
 @Injectable()
@@ -11,7 +11,18 @@ export class ModelService {
         : Promise<model[]> {
         return this.prisma
             .model
-            .findMany();
+            .findMany({
+                include: {
+                    modelBrand: true,
+                    modelSeries: true,
+                    vehicle: {
+                        include: {
+                            vehicleManufacturer: true
+                        }
+                    }
+
+                }
+            });
     }
 
 }
