@@ -13,6 +13,7 @@ model model {
   brand_id    Int
   series_id   Int?
   vehicle_id  Int?
+  year        Int?
   modelBrand  modelBrand   @relation(fields: [brand_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   modelSeries modelSeries? @relation(fields: [series_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   vehicle     vehicle?     @relation(fields: [vehicle_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
@@ -41,7 +42,6 @@ model vehicle {
   id                      Int                 @id(map: "pk_vehicle") @default(autoincrement())
   name                    String              @db.VarChar(50)
   vehicle_manufacturer_id Int
-  year_of_production      Int?                @db.SmallInt
   vehicleManufacturer     vehicleManufacturer @relation(fields: [vehicle_manufacturer_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   models                  model[]
 }
