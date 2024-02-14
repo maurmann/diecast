@@ -5,6 +5,12 @@ const BrandSelect = (props) => {
 
     const [data, setData] = useState([]);
 
+    function onChangeBrand(event) {
+        const index = event.target.options.selectedIndex;
+        const changedId = event.target.options[index].getAttribute('data-key');
+        props.brandChanged(changedId);
+    }
+
     useEffect(() => {
         fetch("http://localhost:3001/models/brands",
             {
@@ -17,12 +23,11 @@ const BrandSelect = (props) => {
             })
     }, []);
 
-
     return (
-        <Select placeholder='Select a brand'>
+        <Select placeholder='Select a brand' onChange={onChangeBrand}>
             {data.map((d) => {
                 return (
-                    <option value={d.id}>{d.name}</option>
+                    <option key={d.id} data-key={d.id}>{d.name}</option>
                 )
             })}
         </Select>

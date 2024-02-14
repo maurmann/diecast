@@ -1,5 +1,5 @@
 import PageTitle from "../../components/PageTitle";
-import { Checkbox, Card, CardBody, Input, Box, Stack, Button, NumberInput, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper, FormControl, FormLabel, FormErrorMessage, FormHelperText } from '@chakra-ui/react'
+import { Card, CardBody, Input, Box, Stack, Button, FormControl, FormLabel, FormErrorMessage, FormHelperText, VStack } from '@chakra-ui/react'
 import { useLocation } from "react-router-dom"
 import { useState } from "react";
 import BrandSelect from "../../components/BrandSelect";
@@ -14,47 +14,61 @@ const ModelsForm = () => {
     const id = queryParameters.get("id")
     const [message, setMessage] = useState(id ? "Editing a model" : "New model");
 
+    const [model, setModel] = useState("");
+    const [brandId, setBrandId] = useState(0);
+    const [seriesId, setSeriesId] = useState(0);
+    const [manufacturerId, setManufacturerId] = useState(0);
+    const [year, setYear] = useState("");
+
+    function submitForm(event) {
+
+
+    }
+
+
     return (
         <>
             <PageTitle Title="Models" SubTitle={message}></PageTitle>
 
             <Card>
                 <CardBody>
-                    <FormControl>
-                        <FormLabel>Model</FormLabel>
-                        <Input colorScheme="whiteAlpha" type='text' />
-                        <FormHelperText></FormHelperText>
-                    </FormControl>
-                    <FormControl>
-                        <FormLabel>Brand</FormLabel>
-                        <BrandSelect></BrandSelect>
-                        <FormHelperText></FormHelperText>
-                    </FormControl>
-                    <FormControl>
-                        <FormLabel>Series</FormLabel>
-                        <SeriesSelect></SeriesSelect>
-                        <FormHelperText></FormHelperText>
-                    </FormControl>
-                    <FormControl>
-                        <FormLabel>Manufacturer</FormLabel>
-                        <VehicleSelect></VehicleSelect>
-                        <FormHelperText></FormHelperText>
-                    </FormControl>
-                    <FormControl>
-                        <FormLabel>Year</FormLabel>
-                        <Input colorScheme="whiteAlpha" type='number' />
-                        <FormHelperText></FormHelperText>
-                    </FormControl>
-
-                    <Box marginTop={'12px'}>
+                    <VStack spacing="12px">
+                        <FormControl class="form-controls">
+                            <FormLabel>Model</FormLabel>
+                            <Input colorScheme="whiteAlpha" type='text' />
+                        </FormControl>
+                        <FormControl class="form-controls">
+                            <FormLabel>Brand</FormLabel>
+                            <BrandSelect
+                                value={brandId}
+                                brandChanged={value => setBrandId(value)}>
+                            </BrandSelect>
+                        </FormControl>
+                        <FormControl class="form-controls">
+                            <FormLabel>Series</FormLabel>
+                            <SeriesSelect
+                                brandId={brandId}
+                                value={seriesId}
+                                seriesChanged={value => setSeriesId(value)}
+                            ></SeriesSelect>
+                        </FormControl>
+                        <FormControl class="form-controls">
+                            <FormLabel>Manufacturer</FormLabel>
+                            <VehicleSelect></VehicleSelect>
+                        </FormControl>
+                        <FormControl class="form-controls">
+                            <FormLabel>Year</FormLabel>
+                            <Input colorScheme="whiteAlpha" type='number' />
+                        </FormControl>
+                    </VStack>
+                    <Box marginTop={"22px"}>
                         <Stack direction={'row'} spacing={2}>
-                            <Button colorScheme='green' leftIcon={<CheckIcon />} size='sm' >Confirm</Button>
+                            <Button colorScheme='green' leftIcon={<CheckIcon />} size='sm' onClick={submitForm} >Confirm</Button>
                             <Button colorScheme='blackAlpha' leftIcon={<ArrowBackIcon />} size='sm' >Cancel</Button>
                         </Stack>
                     </Box>
-
                 </CardBody>
-            </Card>
+            </Card >
         </>
     )
 };
