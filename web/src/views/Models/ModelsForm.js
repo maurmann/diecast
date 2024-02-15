@@ -22,20 +22,29 @@ const ModelsForm = () => {
 
 
 
-    async function postJSON(brandName) {
+    async function submitForm(event) {
 
-        const x = { name: brandName };
-        console.log(x);
-        console.log(JSON.stringify(x));
+        event.preventDefault();
+
+        const model =
+        {
+            name: name,
+            brandId: parseInt(brandId),
+            seriesId: parseInt(seriesId),
+            vehicleId: null,
+            year: parseInt(year)
+        };
+        console.log(model);
+        console.log(JSON.stringify(model));
 
 
         try {
-            const response = await fetch("http://localhost:3001/brands", {
+            const response = await fetch("http://localhost:3001/models", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify(x),
+                body: JSON.stringify(model),
             });
 
             console.log("Success:", response);
@@ -45,10 +54,6 @@ const ModelsForm = () => {
     }
 
 
-    async function submitForm(event) {
-
-        await postJSON(name);
-    }
 
 
     return (
@@ -83,7 +88,7 @@ const ModelsForm = () => {
                         </FormControl>
                         <FormControl className={"form-controls"}>
                             <FormLabel>Year</FormLabel>
-                            <Input colorScheme="whiteAlpha" type='number' />
+                            <Input colorScheme="whiteAlpha" type='number' onChange={e => setYear(e.target.value)} />
                         </FormControl>
                     </VStack>
                     <Box marginTop={"22px"}>
