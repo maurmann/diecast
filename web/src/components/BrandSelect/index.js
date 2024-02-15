@@ -12,7 +12,7 @@ const BrandSelect = (props) => {
     }
 
     useEffect(() => {
-        fetch("http://localhost:3001/models/brands",
+        fetch("http://localhost:3001/brands",
             {
                 method: "GET"
             })

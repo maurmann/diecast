@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { Injectable } from "@nestjs/common";
 import { modelBrand } from '@prisma/client';
+import { PostBrandDto } from "src/model/getModel.dto";
 import { PrismaService } from "src/prisma.service";
 
 @Injectable()
@@ -23,4 +24,14 @@ export class ModelBrandService {
                 where: { id }
             })
     }
+
+    async create(newName: PostBrandDto) {
+        await this.prisma
+            .modelBrand
+            .create({
+                data: {
+                    name: newName.name
+                }
+            })
+    };
 }

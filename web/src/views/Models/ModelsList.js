@@ -81,9 +81,9 @@ const ModelsList = () => {
                                         <Td>{d.name}</Td>
                                         <Td>{d.modelBrand.name}</Td>
                                         <Td>{d.modelSeries.name}</Td>
-                                        <Td>{d.vehicle.vehicleManufacturer.name}</Td>
+                                        <Td>{d.vehicle?.vehicleManufacturer?.name}</Td>
                                         <Td>{d.year}</Td>
-                                        <Td>{d.vehicle.vehicleManufacturer.country}</Td>
+                                        <Td>To Do</Td>
                                         <Td>Pickup</Td>
                                         <Td>
                                             <IconButton

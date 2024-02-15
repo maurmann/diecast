@@ -14,15 +14,40 @@ const ModelsForm = () => {
     const id = queryParameters.get("id")
     const [message, setMessage] = useState(id ? "Editing a model" : "New model");
 
-    const [model, setModel] = useState("");
+    const [name, setName] = useState("");
     const [brandId, setBrandId] = useState(0);
     const [seriesId, setSeriesId] = useState(0);
     const [manufacturerId, setManufacturerId] = useState(0);
     const [year, setYear] = useState("");
 
-    function submitForm(event) {
 
 
+    async function postJSON(brandName) {
+
+        const x = { name: brandName };
+        console.log(x);
+        console.log(JSON.stringify(x));
+
+
+        try {
+            const response = await fetch("http://localhost:3001/brands", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(x),
+            });
+
+            console.log("Success:", response);
+        } catch (error) {
+            console.error("Error:", error);
+        }
+    }
+
+
+    async function submitForm(event) {
+
+        await postJSON(name);
     }
 
 
@@ -33,18 +58,18 @@ const ModelsForm = () => {
             <Card>
                 <CardBody>
                     <VStack spacing="12px">
-                        <FormControl class="form-controls">
-                            <FormLabel>Model</FormLabel>
-                            <Input colorScheme="whiteAlpha" type='text' />
+                        <FormControl className={"form-controls"}>
+                            <FormLabel>Name</FormLabel>
+                            <Input colorScheme="whiteAlpha" type='text' onChange={e => setName(e.target.value)} />
                         </FormControl>
-                        <FormControl class="form-controls">
+                        <FormControl className={"form-controls"}>
                             <FormLabel>Brand</FormLabel>
                             <BrandSelect
                                 value={brandId}
                                 brandChanged={value => setBrandId(value)}>
                             </BrandSelect>
                         </FormControl>
-                        <FormControl class="form-controls">
+                        <FormControl className={"form-controls"}>
                             <FormLabel>Series</FormLabel>
                             <SeriesSelect
                                 brandId={brandId}
@@ -52,11 +77,11 @@ const ModelsForm = () => {
                                 seriesChanged={value => setSeriesId(value)}
                             ></SeriesSelect>
                         </FormControl>
-                        <FormControl class="form-controls">
+                        <FormControl className={"form-controls"}>
                             <FormLabel>Manufacturer</FormLabel>
                             <VehicleSelect></VehicleSelect>
                         </FormControl>
-                        <FormControl class="form-controls">
+                        <FormControl className={"form-controls"}>
                             <FormLabel>Year</FormLabel>
                             <Input colorScheme="whiteAlpha" type='number' />
                         </FormControl>

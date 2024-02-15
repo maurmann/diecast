@@ -1,6 +1,8 @@
 /* eslint-disable prettier/prettier */
-import { Controller, Get } from "@nestjs/common";
+import { Body, Controller, Get, Post, UsePipes } from "@nestjs/common";
 import { ModelService } from "./model.service";
+import { modelCreateSchema, ModelCreateDto } from '../pipes/schemas/model.create.schema';
+import { ZodValidationPipe } from "src/pipes/zod.validation.pipe";
 
 @Controller('/models/')
 export class ModelController {
@@ -10,5 +12,11 @@ export class ModelController {
     async getAll() {
         const models = await this.modelService.getAll();
         return models;
+    }
+
+    @Post()
+    @UsePipes(new ZodValidationPipe(modelCreateSchema))
+    async create(@Body() newModel: ModelCreateDto) {
+        await this.modelService.create(newModel);
     }
 }

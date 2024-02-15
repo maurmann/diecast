@@ -49,7 +49,6 @@ model vehicle {
 model vehicleManufacturer {
   id       Int       @id @default(autoincrement())
   name     String    @db.VarChar
-  country  String?   @db.VarChar
   vehicles vehicle[]
 
   @@map("vehicle_manufacturer")

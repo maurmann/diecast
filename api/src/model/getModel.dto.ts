@@ -9,3 +9,22 @@ export class GetModelDto {
         readonly vehicleOrigin: string,
     ) { }
 }
+
+
+export class PostBrandDto {
+    constructor(
+        readonly name: string
+    ) { }
+}
+
+/*
+export class PostModelDto {
+    constructor(
+        readonly name: string,
+        readonly brandId: number,
+        readonly seriesId?: number,
+        readonly vehicleId?: number,
+        readonly year?: number,
+    ) { }
+}
+*/

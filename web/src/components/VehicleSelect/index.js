@@ -6,7 +6,7 @@ const VehicleSelect = (props) => {
     const [data, setData] = useState([]);
 
     useEffect(() => {
-        fetch("http://localhost:3001/models/brands",
+        fetch("http://localhost:3001/brands",
             {
                 method: "GET"
             })
