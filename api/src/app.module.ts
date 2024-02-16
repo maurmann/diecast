@@ -2,16 +2,18 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ModelBrandModule } from './modelBrand/modelBrand.module';
+import { BrandModule } from './brand/brand.module';
 import { ConfigModule } from '@nestjs/config';
 import { ModelModule } from './model/model.module';
-import { ModelSeriesModule } from './modelSeries/modelSeries.module';
+import { SeriesModule } from './series/series.module';
+import { ManufacturerModule } from './manufacturer/manufacturer.module';
 
 @Module({
   imports: [
     ModelModule,
-    ModelBrandModule,
-    ModelSeriesModule,
+    BrandModule,
+    SeriesModule,
+    ManufacturerModule,
     ConfigModule.forRoot({ isGlobal: true }),
   ],
   controllers: [AppController],

@@ -8,48 +8,50 @@ datasource db {
 }
 
 model model {
-  id          Int          @id(map: "pk_model") @default(autoincrement())
-  name        String       @db.VarChar(50)
-  brand_id    Int
-  series_id   Int?
-  vehicle_id  Int?
-  year        Int?
-  modelBrand  modelBrand   @relation(fields: [brand_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  modelSeries modelSeries? @relation(fields: [series_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  vehicle     vehicle?     @relation(fields: [vehicle_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  id              Int           @id(map: "pk_model") @default(autoincrement())
+  name            String        @db.VarChar(50)
+  brand_id        Int
+  series_id       Int?
+  manufacturer_id Int?
+  year            Int?
+  category_id     Int?
+  brand           brand         @relation(fields: [brand_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  series          series?       @relation(fields: [series_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  manufacturer    manufacturer? @relation(fields: [manufacturer_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  category        category?     @relation(fields: [category_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
-model modelBrand {
-  id           Int           @id(map: "pk_brand") @default(autoincrement())
-  name         String        @db.VarChar(50)
+model brand {
+  id           Int      @id(map: "pk_brand") @default(autoincrement())
+  name         String   @db.VarChar(50)
   model        model[]
-  model_series modelSeries[]
-
-  @@map("model_brand")
+  model_series series[]
 }
 
-model modelSeries {
-  id             Int         @id(map: "pk_series") @default(autoincrement())
-  name           String      @db.VarChar(50)
-  model_brand_id Int?
-  model          model[]
-  model_brand    modelBrand? @relation(fields: [model_brand_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-
-  @@map("model_series")
+model series {
+  id       Int     @id(map: "pk_series") @default(autoincrement())
+  name     String  @db.VarChar(50)
+  brand_id Int?
+  model    model[]
+  brand    brand?  @relation(fields: [brand_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
-model vehicle {
-  id                      Int                 @id(map: "pk_vehicle") @default(autoincrement())
-  name                    String              @db.VarChar(50)
-  vehicle_manufacturer_id Int
-  vehicleManufacturer     vehicleManufacturer @relation(fields: [vehicle_manufacturer_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  models                  model[]
+model manufacturer {
+  id         Int     @id(map: "pk_vehicle") @default(autoincrement())
+  name       String  @db.VarChar(50)
+  country_id Int?
+  country    country? @relation(fields: [country_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  models     model[]
 }
 
-model vehicleManufacturer {
-  id       Int       @id @default(autoincrement())
-  name     String    @db.VarChar
-  vehicles vehicle[]
+model category {
+  id     Int     @id @default(autoincrement())
+  name   String  @db.VarChar
+  models model[]
+}
 
-  @@map("vehicle_manufacturer")
+model country {
+  id     Int            @id @default(autoincrement())
+  name   String         @db.VarChar
+  models manufacturer[]
 }

@@ -79,9 +79,9 @@ const ModelsList = () => {
                                 return (
                                     <Tr key={d.id}>
                                         <Td>{d.name}</Td>
-                                        <Td>{d.modelBrand.name}</Td>
-                                        <Td>{d.modelSeries.name}</Td>
-                                        <Td>{d.vehicle?.vehicleManufacturer?.name}</Td>
+                                        <Td>{d.brand.name}</Td>
+                                        <Td>{d.series.name}</Td>
+                                        <Td>{d.manufacturer?.name}</Td>
                                         <Td>{d.year}</Td>
                                         <Td>To Do</Td>
                                         <Td>Pickup</Td>

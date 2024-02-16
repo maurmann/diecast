@@ -16,20 +16,9 @@ const Layout = () => {
                 </HStack>
             </HStack >
             <HStack h="40px" bgGradient="linear(to-r,#50A1E2,#69B4EB)">
-                <HStack ml="12px" spacing="8">
+                <HStack ml="12px" spacing="6">
                     <Link href='/'>Home</Link >
                     <Link href='/Models'>Models</Link >
-                    <Menu>
-                        <MenuButton>Attributes</MenuButton>
-                        <MenuList>
-                            <MenuItem as='a' href='/ModelBrands'>Model Brands</MenuItem>
-                            <MenuItem as='a' href='/ModelSeries'>Model Series</MenuItem>
-                            <MenuItem as='a' href='/VehicleManufacturers'>Vehicle Manufacturers</MenuItem>
-                            <MenuItem as='a' href='/VehicleCategories'>Vehicle Categories</MenuItem>
-                            <MenuItem as='a' href='/VehicleCategories'>Vehicle Countries</MenuItem>
-                        </MenuList>
-                    </Menu>
-                    <Link href='/About'>About</Link >
                 </HStack>
                 <div style={{ marginLeft: "12px" }} >
                 </div>

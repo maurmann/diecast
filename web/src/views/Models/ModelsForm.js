@@ -6,6 +6,7 @@ import BrandSelect from "../../components/BrandSelect";
 import SeriesSelect from "../../components/SeriesSelect";
 import VehicleSelect from "../../components/VehicleSelect";
 import { ArrowBackIcon, CheckIcon } from "@chakra-ui/icons";
+import { modelMapper } from "../../mappers/model.mapper";
 
 const ModelsForm = () => {
 
@@ -20,12 +21,13 @@ const ModelsForm = () => {
     const [manufacturerId, setManufacturerId] = useState(0);
     const [year, setYear] = useState("");
 
-
-
     async function submitForm(event) {
 
         event.preventDefault();
 
+        const model = modelMapper(name, brandId, seriesId, manufacturerId, year);
+
+        /*
         const model =
         {
             name: name,
@@ -34,9 +36,7 @@ const ModelsForm = () => {
             vehicleId: null,
             year: parseInt(year)
         };
-        console.log(model);
-        console.log(JSON.stringify(model));
-
+        */
 
         try {
             const response = await fetch("http://localhost:3001/models", {
