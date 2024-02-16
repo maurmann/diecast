@@ -9,7 +9,7 @@ datasource db {
 
 model model {
   id              Int           @id(map: "pk_model") @default(autoincrement())
-  name            String        @db.VarChar(50)
+  name            String        @db.VarChar(100)
   brand_id        Int
   series_id       Int?
   manufacturer_id Int?
