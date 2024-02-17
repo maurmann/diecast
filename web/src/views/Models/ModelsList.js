@@ -1,10 +1,11 @@
-import { useDisclosure, IsOpen, onOpen, onClose, Card, CardBody, Table, Th, Tr, Thead, Tbody, Td, IconButton, Stack, Button, Box } from "@chakra-ui/react";
-import { AddIcon, SearchIcon, EditIcon, DeleteIcon } from '@chakra-ui/icons';
+import { useDisclosure, Input,InputGroup,InputRightElement,IsOpen, onOpen, onClose, Card, CardBody, Table, Th, Tr, Thead, Tbody, Td, IconButton, Stack, Button, Box, CardFooter, Icon } from "@chakra-ui/react";
+import { AddIcon, SearchIcon, EditIcon, DeleteIcon, ArrowUpIcon } from '@chakra-ui/icons';
 import PageTitle from "../../components/PageTitle";
 import { useEffect, useState } from "react";
 import ModelsFilter from "./ModelsFilter";
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import Pagination from "../../components/pagination/pagination";
 
 const ModelsList = () => {
 
@@ -42,7 +43,7 @@ const ModelsList = () => {
             .then((data) => {
                 setData(data);
             })
-    }, []);
+   }, []);
 
     return (
         <div>
@@ -52,9 +53,15 @@ const ModelsList = () => {
             <PageTitle Title="Models" SubTitle="List with all models"></PageTitle>
 
             <Box marginBottom={'8px'}>
-                <Stack direction={'row'} spacing={2}>
+                <Stack direction={'row'} spacing={2} verticalAlign={'middle'}>
                     <Button colorScheme='green' leftIcon={<AddIcon />} size='sm' onClick={newModel} >New Model</Button>
                     <Button colorScheme='blackAlpha' leftIcon={<SearchIcon />} size='sm' onClick={onOpen}>Apply Filters</Button>
+                    <InputGroup>
+    <InputRightElement pointerEvents='none'>
+      <SearchIcon />
+    </InputRightElement>
+    <Input type='search' placeholder='Search models' bg={'gray.100'} />
+  </InputGroup>
                 </Stack>
             </Box>
 
@@ -63,10 +70,11 @@ const ModelsList = () => {
                     <Table variant='simple'>
                         <Thead>
                             <Tr>
-                                <Th>Model</Th>
-                                <Th>Brand</Th>
+                                <Th>Brand<ArrowUpIcon /> </Th>
                                 <Th>Series</Th>
+                                <Th>Model</Th>
                                 <Th>Manufacturer</Th>
+                                <Th>Details</Th>
                                 <Th>Year</Th>
                                 <Th>Origin</Th>
                                 <Th>Category</Th>
@@ -78,13 +86,14 @@ const ModelsList = () => {
                             {data.map((d) => {
                                 return (
                                     <Tr key={d.id}>
-                                        <Td>{d.name}</Td>
                                         <Td>{d.brand.name}</Td>
                                         <Td>{d.series.name}</Td>
+                                        <Td>{d.name}</Td>
                                         <Td>{d.manufacturer?.name}</Td>
+                                        <Td>{d.detail}</Td>
                                         <Td>{d.year}</Td>
-                                        <Td>To Do</Td>
-                                        <Td>Pickup</Td>
+                                        <Td>{d.manufacturer?.country?.name}</Td>
+                                        <Td>{d.category?.name}</Td>
                                         <Td>
                                             <IconButton
                                                 isRound={false}
@@ -109,6 +118,7 @@ const ModelsList = () => {
                     </Table>
                 </CardBody>
             </Card>
+            <Pagination/>
         </div >
     )
 };

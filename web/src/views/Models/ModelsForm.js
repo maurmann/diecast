@@ -7,6 +7,7 @@ import SeriesSelect from "../../components/SeriesSelect";
 import VehicleSelect from "../../components/VehicleSelect";
 import { ArrowBackIcon, CheckIcon } from "@chakra-ui/icons";
 import { modelMapper } from "../../mappers/model.mapper";
+import ManufacturerSelectList from "../../components/select-lists/manufacturer-select-list";
 
 const ModelsForm = () => {
 
@@ -84,7 +85,7 @@ const ModelsForm = () => {
                         </FormControl>
                         <FormControl className={"form-controls"}>
                             <FormLabel>Manufacturer</FormLabel>
-                            <VehicleSelect></VehicleSelect>
+                            <ManufacturerSelectList/>
                         </FormControl>
                         <FormControl className={"form-controls"}>
                             <FormLabel>Year</FormLabel>
