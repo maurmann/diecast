@@ -9,7 +9,7 @@ export class ModelService {
 
   async getAll(): Promise<model[]> {
     return this.prisma.model.findMany({
-      skip: 50,
+      skip: 0,
       take: 10,
       include: {
         brand: true,

@@ -1,4 +1,4 @@
-import { useDisclosure, Input,InputGroup,InputRightElement,IsOpen, onOpen, onClose, Card, CardBody, Table, Th, Tr, Thead, Tbody, Td, IconButton, Stack, Button, Box, CardFooter, Icon } from "@chakra-ui/react";
+import { useDisclosure, Input, InputGroup, InputRightElement, IsOpen, onOpen, onClose, Card, CardBody, Table, Th, Tr, Thead, Tbody, Td, IconButton, Stack, Button, Box, CardFooter, Icon } from "@chakra-ui/react";
 import { AddIcon, SearchIcon, EditIcon, DeleteIcon, ArrowUpIcon } from '@chakra-ui/icons';
 import PageTitle from "../../components/PageTitle";
 import { useEffect, useState } from "react";
@@ -33,6 +33,14 @@ const ModelsList = () => {
 
     const [data, setData] = useState([]);
 
+    const [pageNumber,setPageNumber] = useState(1);
+    const [numberOfPages,setNumberOfPages] = useState(18);
+
+    function changePageNumber(pageNumber){
+        setPageNumber(pageNumber);
+    }
+
+
     useEffect(() => {
         fetch("http://localhost:3001/models",
             {
@@ -43,7 +51,7 @@ const ModelsList = () => {
             .then((data) => {
                 setData(data);
             })
-   }, []);
+    }, []);
 
     return (
         <div>
@@ -57,11 +65,11 @@ const ModelsList = () => {
                     <Button colorScheme='green' leftIcon={<AddIcon />} size='sm' onClick={newModel} >New Model</Button>
                     <Button colorScheme='blackAlpha' leftIcon={<SearchIcon />} size='sm' onClick={onOpen}>Apply Filters</Button>
                     <InputGroup>
-    <InputRightElement pointerEvents='none'>
-      <SearchIcon />
-    </InputRightElement>
-    <Input type='search' placeholder='Search models' bg={'gray.100'} />
-  </InputGroup>
+                        <InputRightElement pointerEvents='none'>
+                            <SearchIcon />
+                        </InputRightElement>
+                        <Input type='search' placeholder='Search models' bg={'gray.100'} />
+                    </InputGroup>
                 </Stack>
             </Box>
 
@@ -118,7 +126,10 @@ const ModelsList = () => {
                     </Table>
                 </CardBody>
             </Card>
-            <Pagination/>
+            <Pagination 
+                pageNumber={pageNumber} 
+                numberOfPages={numberOfPages}
+                changePageNumber={value => setPageNumber(value)} />
         </div >
     )
 };
