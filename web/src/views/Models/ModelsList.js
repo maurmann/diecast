@@ -33,16 +33,29 @@ const ModelsList = () => {
 
     const [data, setData] = useState([]);
 
-    const [pageNumber,setPageNumber] = useState(1);
-    const [numberOfPages,setNumberOfPages] = useState(13);
+    const [pageNumber, setPageNumber] = useState(2);
+    const [rows, setRows] = useState(0);
 
-    function changePageNumber(pageNumber){
+    const [numberOfPages, setNumberOfPages] = useState(14);
+
+    function changePageNumber(pageNumber) {
         setPageNumber(pageNumber);
     }
 
+    useEffect(() => {
+        fetch("http://localhost:3001/models/count",
+            {
+                method: "GET"
+            })
+            .then((response) => 
+                response.json())
+            .then((data) => { 
+                setRows(data); 
+            })
+    }, []);
 
     useEffect(() => {
-        fetch("http://localhost:3001/models",
+        fetch("http://localhost:3001/models?" + new URLSearchParams({ pageNumber }),
             {
                 method: "GET"
             })
@@ -51,7 +64,7 @@ const ModelsList = () => {
             .then((data) => {
                 setData(data);
             })
-    }, []);
+    }, [pageNumber]);
 
     return (
         <div>
@@ -126,9 +139,10 @@ const ModelsList = () => {
                     </Table>
                 </CardBody>
             </Card>
-            <Pagination 
-                pageNumber={pageNumber} 
+            <Pagination
+                pageNumber={pageNumber}
                 numberOfPages={numberOfPages}
+                rows={rows}
                 changePageNumber={value => setPageNumber(value)} />
         </div >
     )

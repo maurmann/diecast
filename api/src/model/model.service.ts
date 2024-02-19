@@ -7,9 +7,11 @@ import { PrismaService } from 'src/prisma.service';
 export class ModelService {
   constructor(private prisma: PrismaService) {}
 
-  async getAll(): Promise<model[]> {
+  async getAll(pageNumber: number): Promise<model[]> {
+    pageNumber = pageNumber < 1 ? 1 : pageNumber;
+
     return this.prisma.model.findMany({
-      skip: 0,
+      skip: 10 * (pageNumber - 1),
       take: 10,
       include: {
         brand: true,
@@ -22,6 +24,10 @@ export class ModelService {
         category: true,
       },
     });
+  }
+
+  async count(): Promise<any> {
+    return this.prisma.$queryRaw`SELECT COUNT(*) as modelsCount FROM model`;
   }
 
   async create(newModel: ModelCreateDto) {

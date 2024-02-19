@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Post, UsePipes } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  ParseIntPipe,
+  Post,
+  Query,
+  UsePipes,
+} from '@nestjs/common';
 import { ModelService } from './model.service';
 import { modelCreateSchema, ModelCreateDto } from './model.create.schema';
 import { ZodValidationPipe } from 'src/pipes/zod.validation.pipe';
@@ -8,9 +17,16 @@ export class ModelController {
   constructor(private modelService: ModelService) {}
 
   @Get()
-  async getAll() {
-    const models = await this.modelService.getAll();
+  async getAll(@Query('pageNumber', ParseIntPipe) pageNumber: number) {
+    const models = await this.modelService.getAll(pageNumber);
     return models;
+  }
+
+  @Get('/count')
+  async count() {
+    const data = await this.modelService.count();
+    const rows = JSON.stringify(parseInt(data[0].modelscount));
+    return rows;
   }
 
   @Post()
