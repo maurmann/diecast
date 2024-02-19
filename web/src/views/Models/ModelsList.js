@@ -34,7 +34,7 @@ const ModelsList = () => {
     const [data, setData] = useState([]);
 
     const [pageNumber,setPageNumber] = useState(1);
-    const [numberOfPages,setNumberOfPages] = useState(18);
+    const [numberOfPages,setNumberOfPages] = useState(13);
 
     function changePageNumber(pageNumber){
         setPageNumber(pageNumber);

@@ -2,9 +2,9 @@ import { Button, Stack } from "@chakra-ui/react"
 
 const Pagination = (props) => {
 
-    const MAX_PAGES_TO_RENDER = 10;
-    const MIDDLE_POSITION = 5;
-    let pagesToDisplay = props.numberOfPages > MAX_PAGES_TO_RENDER ? MAX_PAGES_TO_RENDER : props.numberOfPages;
+    const MAX_PAGES_TO_RENDER = 5;
+    const MIDDLE_POSITION = 3;
+
 
 
 
@@ -12,27 +12,27 @@ const Pagination = (props) => {
 
     // if number of pages is lower or equal than the number of pages to display
     // in this case always display from 1 to numberofPages
-    if (props.numberOfPages <= pagesToDisplay) {
-        for (let i = 1; i <= pagesToDisplay; i++) {
+    if (props.numberOfPages <= MAX_PAGES_TO_RENDER) {
+        for (let i = 1; i <= props.numberOfPages; i++) {
             pages.push(i);
         }
     }
     else {
-        // first pages
+        // firt pages
         if (props.pageNumber <= MIDDLE_POSITION) {
-            for (let i = props.pageNumber - (MIDDLE_POSITION - 1); i <= props.numberOfPages; i++) {
+            for (let i = 1; i <= MAX_PAGES_TO_RENDER; i++) {
                 pages.push(i);
             }
         }
-        // final pages
-        else if (props.numberOfPages - MIDDLE_POSITION <= props.pageNumber) {
-            for (let i = props.numberOfPages - pagesToDisplay; i <= pagesToDisplay; i++) {
+        // final pages        
+        else if (props.numberOfPages - props.pageNumber < MIDDLE_POSITION) {
+            for (let i = props.numberOfPages - MAX_PAGES_TO_RENDER + 1; i <= props.numberOfPages; i++) {
                 pages.push(i);
             }
         }
-        // middle pages
+        // intermediary pages
         else {
-            for (let i = props.pageNumber - (MIDDLE_POSITION - 1); i <= props.numberOfPages; i++) {
+            for (let i = props.pageNumber - (MIDDLE_POSITION - 1); i <= props.pageNumber + (MIDDLE_POSITION - 1); i++) {
                 pages.push(i);
             }
         }
