@@ -1,6 +1,6 @@
 import { parseIntOrNull } from "../utilities/parse.utility";
 
-export const modelMapper = (name, brandId, seriesId, manufacturerId, year, categoryId, detail) => {
+export const modelMapper = (name, brandId, seriesId, manufacturerId, year, categoryId, detail,code) => {
 
     const model =
     {
@@ -10,7 +10,8 @@ export const modelMapper = (name, brandId, seriesId, manufacturerId, year, categ
         manufacturerId: parseIntOrNull(manufacturerId),
         year: parseIntOrNull(year),
         categoryId: parseIntOrNull(categoryId),
-        detail: detail
+        detail: detail,
+        code: code,
     };
 
     return model;
