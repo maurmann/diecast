@@ -7,6 +7,9 @@ export const modelCreateSchema = z
     seriesId: z.nullable(z.number()),
     manufacturerId: z.nullable(z.number()),
     year: z.nullable(z.number()),
+    categoryId: z.nullable(z.number()),
+    detail: z.nullable(z.string()),
+    code: z.nullable(z.string()),
   })
   .required();
 

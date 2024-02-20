@@ -4,40 +4,34 @@ import { useLocation } from "react-router-dom"
 import { useState } from "react";
 import BrandSelect from "../../components/BrandSelect";
 import SeriesSelect from "../../components/SeriesSelect";
-import VehicleSelect from "../../components/VehicleSelect";
 import { ArrowBackIcon, CheckIcon } from "@chakra-ui/icons";
 import { modelMapper } from "../../mappers/model.mapper";
 import ManufacturerSelectList from "../../components/select-lists/manufacturer-select-list";
+import CategorySelectList from "../../components/select-lists/category-select-list";
 
 const ModelsForm = () => {
-
     const location = useLocation();
     const queryParameters = new URLSearchParams(location.search);
     const id = queryParameters.get("id")
     const [message, setMessage] = useState(id ? "Editing a model" : "New model");
-
     const [name, setName] = useState("");
     const [brandId, setBrandId] = useState(0);
     const [seriesId, setSeriesId] = useState(0);
     const [manufacturerId, setManufacturerId] = useState(0);
     const [year, setYear] = useState("");
+    const [categoryId, setCategoryId] = useState(0);
+    const [detail, setDetail] = useState("");
+    const [code, setCode] = useState("");
 
     async function submitForm(event) {
 
+debugger;
+
         event.preventDefault();
+        const model = modelMapper(name, brandId, seriesId, manufacturerId, year, categoryId, detail);
 
-        const model = modelMapper(name, brandId, seriesId, manufacturerId, year);
 
-        /*
-        const model =
-        {
-            name: name,
-            brandId: parseInt(brandId),
-            seriesId: parseInt(seriesId),
-            vehicleId: null,
-            year: parseInt(year)
-        };
-        */
+        console.log(model);
 
         try {
             const response = await fetch("http://localhost:3001/models", {
@@ -53,9 +47,6 @@ const ModelsForm = () => {
             console.error("Error:", error);
         }
     }
-
-
-
 
     return (
         <>
@@ -85,11 +76,25 @@ const ModelsForm = () => {
                         </FormControl>
                         <FormControl className={"form-controls"}>
                             <FormLabel>Manufacturer</FormLabel>
-                            <ManufacturerSelectList/>
+                            <ManufacturerSelectList />
                         </FormControl>
                         <FormControl className={"form-controls"}>
                             <FormLabel>Year</FormLabel>
                             <Input colorScheme="whiteAlpha" type='number' onChange={e => setYear(e.target.value)} />
+                        </FormControl>
+                        <FormControl>
+                            <FormLabel>Category</FormLabel>
+                            <CategorySelectList
+                                value={categoryId}
+                                categoryChanged={value => setCategoryId(value)} />
+                        </FormControl>
+                        <FormControl>
+                            <FormLabel>Details</FormLabel>
+                            <Input colorScheme="whiteAlpha" type="text" onChange={e => setDetail(e.target.value)} />
+                        </FormControl>
+                        <FormControl>
+                            <FormLabel>Code</FormLabel>
+                            <Input colorScheme="whiteAlpha" type="text" onChange={e => setCode(e.target.value)} />
                         </FormControl>
                     </VStack>
                     <Box marginTop={"22px"}>

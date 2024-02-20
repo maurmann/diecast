@@ -91,6 +91,7 @@ const ModelsList = () => {
                     <Table variant='simple'>
                         <Thead>
                             <Tr>
+                                <Th>Id</Th>
                                 <Th>Brand<ArrowUpIcon /> </Th>
                                 <Th>Series</Th>
                                 <Th>Model</Th>
@@ -107,6 +108,7 @@ const ModelsList = () => {
                             {data.map((d) => {
                                 return (
                                     <Tr key={d.id}>
+                                        <Td>{d.id}</Td>
                                         <Td>{d.brand.name}</Td>
                                         <Td>{d.series.name}</Td>
                                         <Td>{d.name}</Td>

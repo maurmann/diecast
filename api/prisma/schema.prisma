@@ -15,6 +15,8 @@ model model {
   manufacturer_id Int?
   year            Int?
   category_id     Int?
+  detail          String?
+  code            String?
   brand           brand         @relation(fields: [brand_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   series          series?       @relation(fields: [series_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   manufacturer    manufacturer? @relation(fields: [manufacturer_id], references: [id], onDelete: NoAction, onUpdate: NoAction)

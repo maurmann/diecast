@@ -7,6 +7,7 @@ import { ConfigModule } from '@nestjs/config';
 import { ModelModule } from './model/model.module';
 import { SeriesModule } from './series/series.module';
 import { ManufacturerModule } from './manufacturer/manufacturer.module';
+import { CategoryModule } from './category/category.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { ManufacturerModule } from './manufacturer/manufacturer.module';
     BrandModule,
     SeriesModule,
     ManufacturerModule,
+    CategoryModule,
     ConfigModule.forRoot({ isGlobal: true }),
   ],
   controllers: [AppController],

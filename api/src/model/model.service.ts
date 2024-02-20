@@ -38,6 +38,9 @@ export class ModelService {
         series_id: newModel.seriesId,
         manufacturer_id: newModel.manufacturerId,
         year: newModel.year,
+        category_id: newModel.categoryId,
+        detail: newModel.detail,
+        code: newModel.code,
       },
     });
   }
