@@ -10,7 +10,8 @@ import Pagination from "../../components/pagination/pagination";
 const ModelsList = () => {
 
     const navigate = useNavigate();
-
+  
+    
     const newModel = () => {
         navigate('/models/form');
     }
@@ -33,10 +34,10 @@ const ModelsList = () => {
 
     const [data, setData] = useState([]);
 
-    const [pageNumber, setPageNumber] = useState(2);
+    const [pageNumber, setPageNumber] = useState(1);
     const [rows, setRows] = useState(0);
 
-    const [numberOfPages, setNumberOfPages] = useState(14);
+    //const [numberOfPages, setNumberOfPages] = useState(14);
 
     function changePageNumber(pageNumber) {
         setPageNumber(pageNumber);
@@ -47,10 +48,10 @@ const ModelsList = () => {
             {
                 method: "GET"
             })
-            .then((response) => 
+            .then((response) =>
                 response.json())
-            .then((data) => { 
-                setRows(data); 
+            .then((data) => {
+                setRows(data);
             })
     }, []);
 
@@ -100,6 +101,7 @@ const ModelsList = () => {
                                 <Th>Year</Th>
                                 <Th>Origin</Th>
                                 <Th>Category</Th>
+                                <Th>Code</Th>
                                 <Th>Edit</Th>
                                 <Th>Delete</Th>
                             </Tr>
@@ -110,13 +112,14 @@ const ModelsList = () => {
                                     <Tr key={d.id}>
                                         <Td>{d.id}</Td>
                                         <Td>{d.brand.name}</Td>
-                                        <Td>{d.series.name}</Td>
+                                        <Td>{d.series?.name}</Td>
                                         <Td>{d.name}</Td>
                                         <Td>{d.manufacturer?.name}</Td>
                                         <Td>{d.detail}</Td>
                                         <Td>{d.year}</Td>
                                         <Td>{d.manufacturer?.country?.name}</Td>
                                         <Td>{d.category?.name}</Td>
+                                        <Td>{d.code}</Td>
                                         <Td>
                                             <IconButton
                                                 isRound={false}
@@ -143,7 +146,6 @@ const ModelsList = () => {
             </Card>
             <Pagination
                 pageNumber={pageNumber}
-                numberOfPages={numberOfPages}
                 rows={rows}
                 changePageNumber={value => setPageNumber(value)} />
         </div >

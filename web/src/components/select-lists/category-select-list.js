@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { Select } from '@chakra-ui/react'
+import { readDataKeyFromSelectedItem } from "../../utilities/select-list-utility";
 
-const CategorySelectList = () => {
+const CategorySelectList = (props) => {
 
     const [data, setData] = useState([]);
 
@@ -12,7 +13,11 @@ const CategorySelectList = () => {
     }, []);
 
     return (
-        <Select placeholder='Select a category'>
+        <Select placeholder='Select a category'
+            onChange={(event) => {
+                const id = readDataKeyFromSelectedItem(event);
+                props.categoryChanged(id);
+            }}>
             {data.map((d) => {
                 return (
                     <option key={d.id} data-key={d.id}>{d.name}</option>

@@ -1,5 +1,5 @@
 import PageTitle from "../../components/PageTitle";
-import { Card, CardBody, Input, Box, Stack, Button, FormControl, FormLabel, FormErrorMessage, FormHelperText, VStack } from '@chakra-ui/react'
+import { Card, CardBody, Input, Box, Stack, Button, FormControl, FormLabel, FormErrorMessage, FormHelperText, VStack, useToast } from '@chakra-ui/react'
 import { useLocation } from "react-router-dom"
 import { useState } from "react";
 import BrandSelect from "../../components/BrandSelect";
@@ -8,6 +8,7 @@ import { ArrowBackIcon, CheckIcon } from "@chakra-ui/icons";
 import { modelMapper } from "../../mappers/model.mapper";
 import ManufacturerSelectList from "../../components/select-lists/manufacturer-select-list";
 import CategorySelectList from "../../components/select-lists/category-select-list";
+import { useNavigate } from "react-router-dom";
 
 const ModelsForm = () => {
     const location = useLocation();
@@ -23,16 +24,16 @@ const ModelsForm = () => {
     const [detail, setDetail] = useState("");
     const [code, setCode] = useState("");
 
+    const navigate = useNavigate();
+    const toast = useToast();
+
+    const backToList = () => {
+        navigate('/models');
+    }
+
     async function submitForm(event) {
-
-debugger;
-
         event.preventDefault();
-        const model = modelMapper(name, brandId, seriesId, manufacturerId, year, categoryId, detail);
-
-
-        console.log(model);
-
+        const model = modelMapper(name, brandId, seriesId, manufacturerId, year, categoryId, detail, code);
         try {
             const response = await fetch("http://localhost:3001/models", {
                 method: "POST",
@@ -42,10 +43,25 @@ debugger;
                 body: JSON.stringify(model),
             });
 
-            console.log("Success:", response);
+            showConfirmation(model.name);
+            navigate('/models');
         } catch (error) {
             console.error("Error:", error);
         }
+    }
+
+    // TODO: use a promisse toast instead
+    function showConfirmation(modelName) {
+        
+        return (
+            toast({
+                title: 'Model created.',
+                description: `Model ${modelName} added to the database.`,
+                status: 'success',
+                duration: 3000,
+                isClosable: true,
+            })
+        )
     }
 
     return (
@@ -76,11 +92,14 @@ debugger;
                         </FormControl>
                         <FormControl className={"form-controls"}>
                             <FormLabel>Manufacturer</FormLabel>
-                            <ManufacturerSelectList />
+                            <ManufacturerSelectList
+                                value={manufacturerId}
+                                manufacturerChanged={value => setManufacturerId(value)} />
                         </FormControl>
                         <FormControl className={"form-controls"}>
                             <FormLabel>Year</FormLabel>
-                            <Input colorScheme="whiteAlpha" type='number' onChange={e => setYear(e.target.value)} />
+                            <Input colorScheme="whiteAlpha" type='number'
+                                onChange={e => setYear(e.target.value)} />
                         </FormControl>
                         <FormControl>
                             <FormLabel>Category</FormLabel>
@@ -94,17 +113,22 @@ debugger;
                         </FormControl>
                         <FormControl>
                             <FormLabel>Code</FormLabel>
-                            <Input colorScheme="whiteAlpha" type="text" onChange={e => setCode(e.target.value)} />
+                            <Input colorScheme="whiteAlpha" type="text"
+                                onChange={e => setCode(e.target.value)} />
                         </FormControl>
                     </VStack>
                     <Box marginTop={"22px"}>
                         <Stack direction={'row'} spacing={2}>
                             <Button colorScheme='green' leftIcon={<CheckIcon />} size='sm' onClick={submitForm} >Confirm</Button>
-                            <Button colorScheme='blackAlpha' leftIcon={<ArrowBackIcon />} size='sm' >Cancel</Button>
+                            <Button colorScheme='blackAlpha' leftIcon={<ArrowBackIcon />} size='sm' onClick={backToList}>  Cancel</Button>
                         </Stack>
                     </Box>
                 </CardBody>
             </Card >
+
+
+
+
         </>
     )
 };
