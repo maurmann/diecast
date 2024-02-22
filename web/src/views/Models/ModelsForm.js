@@ -2,12 +2,12 @@ import PageTitle from "../../components/PageTitle";
 import { Card, CardBody, Input, Box, Stack, Button, FormControl, FormLabel, FormErrorMessage, FormHelperText, VStack, useToast } from '@chakra-ui/react'
 import { useLocation } from "react-router-dom"
 import { useState } from "react";
-import BrandSelect from "../../components/BrandSelect";
-import SeriesSelect from "../../components/SeriesSelect";
+import BrandSelect from "../../components/select/brand-select.component";
+import SeriesSelect from "../../components/select/series-select.component";
 import { ArrowBackIcon, CheckIcon } from "@chakra-ui/icons";
 import { modelMapper } from "../../mappers/model.mapper";
-import ManufacturerSelectList from "../../components/select-lists/manufacturer-select-list";
-import CategorySelectList from "../../components/select-lists/category-select-list";
+import ManufacturerSelectList from "../../components/select/manufacturer-select.component";
+import CategorySelect from "../../components/select/category-select-component";
 import { useNavigate } from "react-router-dom";
 
 const ModelsForm = () => {
@@ -79,7 +79,7 @@ const ModelsForm = () => {
                             <FormLabel>Brand</FormLabel>
                             <BrandSelect
                                 value={brandId}
-                                brandChanged={value => setBrandId(value)}>
+                                onParentChange={value => setBrandId(value)}>
                             </BrandSelect>
                         </FormControl>
                         <FormControl className={"form-controls"}>
@@ -93,8 +93,7 @@ const ModelsForm = () => {
                         <FormControl className={"form-controls"}>
                             <FormLabel>Manufacturer</FormLabel>
                             <ManufacturerSelectList
-                                value={manufacturerId}
-                                manufacturerChanged={value => setManufacturerId(value)} />
+                                onParentChange={value => setManufacturerId(value)} />
                         </FormControl>
                         <FormControl className={"form-controls"}>
                             <FormLabel>Year</FormLabel>
@@ -103,9 +102,8 @@ const ModelsForm = () => {
                         </FormControl>
                         <FormControl>
                             <FormLabel>Category</FormLabel>
-                            <CategorySelectList
-                                value={categoryId}
-                                categoryChanged={value => setCategoryId(value)} />
+                            <CategorySelect
+                                onParentChange={value => setCategoryId(value)} />
                         </FormControl>
                         <FormControl>
                             <FormLabel>Details</FormLabel>
