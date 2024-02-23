@@ -6,12 +6,13 @@ import ModelsFilter from "./ModelsFilter";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import Pagination from "../../components/pagination/pagination";
+import SearchInput from "../../components/search/search-input.component";
 
 const ModelsList = () => {
 
     const navigate = useNavigate();
-  
-    
+
+
     const newModel = () => {
         navigate('/models/form');
     }
@@ -36,6 +37,7 @@ const ModelsList = () => {
 
     const [pageNumber, setPageNumber] = useState(1);
     const [rows, setRows] = useState(0);
+    const [searchExpression, setSearchExpression] = useState("");
 
     function changePageNumber(pageNumber) {
         setPageNumber(pageNumber);
@@ -51,7 +53,7 @@ const ModelsList = () => {
             .then((data) => {
                 setRows(data);
             })
-    }, []);
+    }, [searchExpression]);
 
     useEffect(() => {
         fetch("http://localhost:3001/models?" + new URLSearchParams({ pageNumber }),
@@ -63,7 +65,7 @@ const ModelsList = () => {
             .then((data) => {
                 setData(data);
             })
-    }, [pageNumber]);
+    }, [searchExpression, pageNumber]);
 
     return (
         <div>
@@ -76,12 +78,7 @@ const ModelsList = () => {
                 <Stack direction={'row'} spacing={2} verticalAlign={'middle'}>
                     <Button colorScheme='green' leftIcon={<AddIcon />} size='sm' onClick={newModel} >New Model</Button>
                     <Button colorScheme='blackAlpha' leftIcon={<SearchIcon />} size='sm' onClick={onOpen}>Apply Filters</Button>
-                    <InputGroup>
-                        <InputRightElement pointerEvents='none'>
-                            <SearchIcon />
-                        </InputRightElement>
-                        <Input type='search' placeholder='Search models' bg={'gray.100'} />
-                    </InputGroup>
+                    <SearchInput executeSearch={(value) => setSearchExpression(value)}></SearchInput>
                 </Stack>
             </Box>
 

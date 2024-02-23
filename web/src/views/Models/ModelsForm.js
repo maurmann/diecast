@@ -87,7 +87,7 @@ const ModelsForm = () => {
                             <SeriesSelect
                                 brandId={brandId}
                                 value={seriesId}
-                                seriesChanged={value => setSeriesId(value)}
+                                onParentChange={value => setSeriesId(value)}
                             ></SeriesSelect>
                         </FormControl>
                         <FormControl className={"form-controls"}>
