@@ -11,7 +11,11 @@ import SearchInput from "../../components/search/search-input.component";
 const ModelsList = () => {
 
     const navigate = useNavigate();
-
+    const { isOpen, onOpen, onClose } = useDisclosure()
+    const [data, setData] = useState([]);
+    const [pageNumber, setPageNumber] = useState(1);
+    const [rows, setRows] = useState(0);
+    const [searchExpression, setSearchExpression] = useState("");
 
     const newModel = () => {
         navigate('/models/form');
@@ -31,13 +35,18 @@ const ModelsList = () => {
         */
     }
 
-    const { isOpen, onOpen, onClose } = useDisclosure()
+    function buildUrl() {
+        let url = "http://localhost:3001/models?" + new URLSearchParams({ pageNumber });
 
-    const [data, setData] = useState([]);
+        console.log("buildUrl");
+        if (searchExpression) {
+            console.log("search");
+            url += "&" + new URLSearchParams({ "search": searchExpression });
+        }
 
-    const [pageNumber, setPageNumber] = useState(1);
-    const [rows, setRows] = useState(0);
-    const [searchExpression, setSearchExpression] = useState("");
+        return url;
+    }
+
 
     function changePageNumber(pageNumber) {
         setPageNumber(pageNumber);
@@ -53,10 +62,10 @@ const ModelsList = () => {
             .then((data) => {
                 setRows(data);
             })
-    }, [searchExpression]);
+    }, []);
 
     useEffect(() => {
-        fetch("http://localhost:3001/models?" + new URLSearchParams({ pageNumber }),
+        fetch(buildUrl(),
             {
                 method: "GET"
             })
@@ -65,7 +74,14 @@ const ModelsList = () => {
             .then((data) => {
                 setData(data);
             })
-    }, [searchExpression, pageNumber]);
+    }, [pageNumber]);
+
+    const search = (value) => {
+
+        setSearchExpression(value);
+        console.log("pesquisar por " + searchExpression);
+
+    }
 
     return (
         <div>
@@ -78,65 +94,68 @@ const ModelsList = () => {
                 <Stack direction={'row'} spacing={2} verticalAlign={'middle'}>
                     <Button colorScheme='green' leftIcon={<AddIcon />} size='sm' onClick={newModel} >New Model</Button>
                     <Button colorScheme='blackAlpha' leftIcon={<SearchIcon />} size='sm' onClick={onOpen}>Apply Filters</Button>
-                    <SearchInput executeSearch={(value) => setSearchExpression(value)}></SearchInput>
+                    <SearchInput
+                        executeSearch={(value) => search(value)}>
+                    </SearchInput>
                 </Stack>
             </Box>
 
             <Card>
                 <CardBody>
-                    <Table variant='simple'>
-                        <Thead>
-                            <Tr>
-                                <Th>Id</Th>
-                                <Th>Brand<ArrowUpIcon /> </Th>
-                                <Th>Series</Th>
-                                <Th>Model</Th>
-                                <Th>Manufacturer</Th>
-                                <Th>Details</Th>
-                                <Th>Year</Th>
-                                <Th>Origin</Th>
-                                <Th>Category</Th>
-                                <Th>Code</Th>
-                                <Th>Edit</Th>
-                                <Th>Delete</Th>
-                            </Tr>
-                        </Thead>
-                        <Tbody>
-                            {data.map((d) => {
-                                return (
-                                    <Tr key={d.id}>
-                                        <Td>{d.id}</Td>
-                                        <Td>{d.brand.name}</Td>
-                                        <Td>{d.series?.name}</Td>
-                                        <Td>{d.name}</Td>
-                                        <Td>{d.manufacturer?.name}</Td>
-                                        <Td>{d.detail}</Td>
-                                        <Td>{d.year}</Td>
-                                        <Td>{d.manufacturer?.country?.name}</Td>
-                                        <Td>{d.category?.name}</Td>
-                                        <Td>{d.code}</Td>
-                                        <Td>
-                                            <IconButton
-                                                isRound={false}
-                                                colorScheme="blue"
-                                                size="sm"
-                                                variant='outline'
-                                                icon={<EditIcon />}
-                                                onClick={(event) => editModel(d.id, event)} />
-                                        </Td>
-                                        <Td>
-                                            <IconButton
-                                                isRound={false}
-                                                colorScheme="blue"
-                                                size="sm"
-                                                variant='outline'
-                                                icon={<DeleteIcon />}
-                                                onClick={(event) => deleteModel(d.id, event)} /></Td>
-                                    </Tr>
-                                )
-                            })}
-                        </Tbody>
-                    </Table>
+                        <Table variant='simple'>
+                            <Thead>
+                                <Tr>
+                                    <Th>Id</Th>
+                                    <Th>Brand<ArrowUpIcon /> </Th>
+                                    <Th>Series</Th>
+                                    <Th>Model</Th>
+                                    <Th>Manufacturer</Th>
+                                    <Th>Details</Th>
+                                    <Th>Year</Th>
+                                    <Th>Origin</Th>
+                                    <Th>Category</Th>
+                                    <Th>Code</Th>
+                                    <Th>Edit</Th>
+                                    <Th>Delete</Th>
+                                </Tr>
+                            </Thead>
+                            <Tbody>
+                                {data.map((d) => {
+                                    return (
+                                        <Tr key={d.id}>
+                                            <Td>{d.id}</Td>
+                                            <Td>{d.brand.name}</Td>
+                                            <Td>{d.series?.name}</Td>
+                                            <Td>{d.name}</Td>
+                                            <Td>{d.manufacturer?.name}</Td>
+                                            <Td>{d.detail}</Td>
+                                            <Td>{d.year}</Td>
+                                            <Td>{d.manufacturer?.country?.name}</Td>
+                                            <Td>{d.category?.name}</Td>
+                                            <Td>{d.code}</Td>
+                                            <Td>
+                                                <IconButton
+                                                    isRound={false}
+                                                    colorScheme="blue"
+                                                    size="sm"
+                                                    variant='outline'
+                                                    icon={<EditIcon />}
+                                                    onClick={(event) => editModel(d.id, event)} />
+                                            </Td>
+                                            <Td>
+                                                <IconButton
+                                                    isRound={false}
+                                                    colorScheme="blue"
+                                                    size="sm"
+                                                    variant='outline'
+                                                    icon={<DeleteIcon />}
+                                                    onClick={(event) => deleteModel(d.id, event)} /></Td>
+                                        </Tr>
+                                    )
+                                })}
+                            </Tbody>
+                        </Table>
+                    
                 </CardBody>
             </Card>
             <Pagination

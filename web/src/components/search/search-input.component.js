@@ -1,21 +1,35 @@
-import { useState } from "react";
-import { InputGroup, Input, InputRightElement } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
+import { InputGroup, Input, InputRightElement, CircularProgress, InputLeftElement, Show } from "@chakra-ui/react";
 import { SearchIcon } from '@chakra-ui/icons';
+import { useDebounce } from "@uidotdev/usehooks";
 
 const SearchInput = (props) => {
 
-    const [searchValue, setSearchValue] = useState("");
+    const [searchTerm, setSearchTerm] = useState("");
+    const [isSearching, setIsSearching] = useState(false);
+    const debouncedSearchTerm = useDebounce(searchTerm, 1000);
 
-    const searchFor = (event) => {
-        if (event.key === "Enter") {
-            event.preventDefault();
-            setSearchValue(event.target.value);
-            props.executeSearch(searchValue);
-        }
+    const handleChange = (e) => {
+        setSearchTerm(e.target.value);
     }
+
+    useEffect(() => {
+        setIsSearching(true);
+        // do the search here
+        setIsSearching(false);
+    }, [debouncedSearchTerm])
+
+    // TODO: the circular progress display condition should be isSearching. Add an async serch to test it
 
     return (
         <InputGroup>
+            {debouncedSearchTerm &&
+                (
+                    <InputLeftElement pointerEvents='none'>
+                        <CircularProgress isIndeterminate size="20px" color='green.300' />
+                    </InputLeftElement>
+                )
+            }
             <InputRightElement pointerEvents='none'>
                 <SearchIcon />
             </InputRightElement>
@@ -23,7 +37,7 @@ const SearchInput = (props) => {
                 type='search'
                 placeholder='Search models'
                 bg={'gray.100'}
-                onChange={(event) => searchFor(event)}>
+                onChange={handleChange}>
             </Input>
         </InputGroup>
     )
