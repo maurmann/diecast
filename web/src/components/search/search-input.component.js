@@ -14,16 +14,15 @@ const SearchInput = (props) => {
     }
 
     useEffect(() => {
-        setIsSearching(true);
-        // do the search here
-        setIsSearching(false);
+        if (debouncedSearchTerm){
+            setIsSearching(true);
+            props.executeSearch(searchTerm);
+        }
     }, [debouncedSearchTerm])
-
-    // TODO: the circular progress display condition should be isSearching. Add an async serch to test it
-
+    
     return (
         <InputGroup>
-            {debouncedSearchTerm &&
+            {isSearching &&
                 (
                     <InputLeftElement pointerEvents='none'>
                         <CircularProgress isIndeterminate size="20px" color='green.300' />

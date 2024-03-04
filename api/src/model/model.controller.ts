@@ -16,16 +16,23 @@ export class ModelController {
   constructor(private modelService: ModelService) {}
 
   @Get()
-  async getAll(@Query('pageNumber', ParseIntPipe) pageNumber: number) {
-    const models = await this.modelService.getAll(pageNumber);
+  async getAll(
+    @Query('pageNumber', ParseIntPipe) pageNumber: number,
+    @Query('search') search: string,
+  ) {
+    const models = await this.modelService.getAll(pageNumber, search);
     return models;
   }
 
   @Get('/count')
-  async count() {
-    const data = await this.modelService.count();
-    const rows = JSON.stringify(parseInt(data[0].modelscount));
-    return rows;
+  async count(@Query('search') search: string) {
+    const data = await this.modelService.count(search);
+
+    console.log(data);
+
+    //const rows = JSON.stringify(parseInt(data[0]));
+    //return rows;
+    return data;
   }
 
   @Post()

@@ -7,8 +7,11 @@ import { PrismaService } from 'src/prisma.service';
 export class ModelService {
   constructor(private prisma: PrismaService) {}
 
-  async getAll(pageNumber: number): Promise<model[]> {
+  async getAll(pageNumber: number, search: string): Promise<model[]> {
     pageNumber = pageNumber < 1 ? 1 : pageNumber;
+
+    const searchCondition = this.buildSearchCondition(search);
+    console.log('searchCondition = ' + searchCondition);
 
     return this.prisma.model.findMany({
       skip: 10 * (pageNumber - 1),
@@ -23,11 +26,18 @@ export class ModelService {
         },
         category: true,
       },
+      where: {
+        ...searchCondition,
+      },
     });
   }
 
-  async count(): Promise<any> {
-    return this.prisma.$queryRaw`SELECT COUNT(*) as modelsCount FROM model`;
+  async count(search: string): Promise<any> {
+    return this.prisma.model.count({
+      where: {
+        ...this.buildSearchCondition(search),
+      },
+    });
   }
 
   async create(newModel: ModelCreateDto) {
@@ -43,5 +53,31 @@ export class ModelService {
         code: newModel.code,
       },
     });
+  }
+
+  buildSearchCondition(search: string) {
+    console.log(search);
+
+    if (!search) {
+      return {};
+    }
+    const condition = {
+      OR: [
+        {
+          code: {
+            contains: search,
+            mode: 'insensitive',
+          },
+        },
+        {
+          name: {
+            contains: search,
+            mode: 'insensitive',
+          },
+        },
+      ],
+    };
+
+    return condition;
   }
 }
