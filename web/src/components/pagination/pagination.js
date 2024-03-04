@@ -10,7 +10,6 @@ const Pagination = (props) => {
     // if number of pages is lower or equal than the number of pages to display
     // in this case always display from 1 to numberofPages
     if (numberOfPages <= MAX_PAGES_TO_RENDER) {
-        console.log('primeiro if');
         for (let i = 1; i <= numberOfPages; i++) {
             pages.push(i);
         }

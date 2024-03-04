@@ -27,11 +27,6 @@ export class ModelController {
   @Get('/count')
   async count(@Query('search') search: string) {
     const data = await this.modelService.count(search);
-
-    console.log(data);
-
-    //const rows = JSON.stringify(parseInt(data[0]));
-    //return rows;
     return data;
   }
 

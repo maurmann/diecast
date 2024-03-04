@@ -1,4 +1,4 @@
-import { useDisclosure, Input, InputGroup, InputRightElement, IsOpen, onOpen, onClose, Card, CardBody, Table, Th, Tr, Thead, Tbody, Td, IconButton, Stack, Button, Box, CardFooter, Icon } from "@chakra-ui/react";
+import { useDisclosure, Card, CardBody, Table, Th, Tr, Thead, Tbody, Td, IconButton, Stack, Button, Box } from "@chakra-ui/react";
 import { AddIcon, SearchIcon, EditIcon, DeleteIcon, ArrowUpIcon } from '@chakra-ui/icons';
 import PageTitle from "../../components/PageTitle";
 import { useEffect, useState } from "react";
@@ -16,7 +16,6 @@ const ModelsList = () => {
     const [pageNumber, setPageNumber] = useState(1);
     const [rows, setRows] = useState(0);
     const [searchExpression, setSearchExpression] = useState("");
-    const [searchComplete, setSearchComplete] = useState(false);
 
     const newModel = () => {
         navigate('/models/form');
@@ -27,13 +26,6 @@ const ModelsList = () => {
     }
 
     const deleteModel = (id, event) => {
-        console.log('delete');
-        console.log(event.type);
-        console.log(id);
-        /*
-        'b' represents the React event that triggered the function,
-        in this case the 'click' event
-        */
     }
 
     function countUrl() {
@@ -82,15 +74,11 @@ const ModelsList = () => {
                 response.json())
             .then((data) => {
                 setData(data);
-                setSearchComplete(true);
             })
     }, [pageNumber, searchExpression]);
 
     const search = (value) => {
-
         setSearchExpression(value);
-        console.log("pesquisar por " + searchExpression);
-
     }
 
     return (
@@ -105,8 +93,7 @@ const ModelsList = () => {
                     <Button colorScheme='green' leftIcon={<AddIcon />} size='sm' onClick={newModel} >New Model</Button>
                     <Button colorScheme='blackAlpha' leftIcon={<SearchIcon />} size='sm' onClick={onOpen}>Apply Filters</Button>
                     <SearchInput
-                        executeSearch={(value) => search(value)}
-                        searchComplete={searchComplete}>
+                        executeSearch={(value) => search(value)}>
                     </SearchInput>
                 </Stack>
             </Box>

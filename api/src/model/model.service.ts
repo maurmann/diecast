@@ -10,9 +10,6 @@ export class ModelService {
   async getAll(pageNumber: number, search: string): Promise<model[]> {
     pageNumber = pageNumber < 1 ? 1 : pageNumber;
 
-    const searchCondition = this.buildSearchCondition(search);
-    console.log('searchCondition = ' + searchCondition);
-
     return this.prisma.model.findMany({
       skip: 10 * (pageNumber - 1),
       take: 10,
@@ -27,7 +24,7 @@ export class ModelService {
         category: true,
       },
       where: {
-        ...searchCondition,
+        ...this.buildSearchCondition(search),
       },
     });
   }
@@ -56,8 +53,6 @@ export class ModelService {
   }
 
   buildSearchCondition(search: string) {
-    console.log(search);
-
     if (!search) {
       return {};
     }
