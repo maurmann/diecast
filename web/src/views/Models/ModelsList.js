@@ -1,4 +1,4 @@
-import { useDisclosure, Card, CardBody, Table, Th, Tr, Thead, Tbody, Td, IconButton, Stack, Button, Box } from "@chakra-ui/react";
+import { Card, CardBody, Table, Th, Tr, Thead, Tbody, Td, IconButton, Stack, Button, Box } from "@chakra-ui/react";
 import { AddIcon, EditIcon, DeleteIcon, ArrowUpIcon } from '@chakra-ui/icons';
 import PageTitle from "../../components/PageTitle";
 import { useEffect, useState } from "react";
@@ -10,7 +10,6 @@ import SearchInput from "../../components/search/search-input.component";
 const ModelsList = () => {
 
     const navigate = useNavigate();
-    const { isOpen, onOpen, onClose } = useDisclosure()
     const [data, setData] = useState([]);
     const [pageNumber, setPageNumber] = useState(1);
     const [rows, setRows] = useState(0);
