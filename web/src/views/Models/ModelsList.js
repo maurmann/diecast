@@ -1,4 +1,4 @@
-import { Card, CardBody, Table, Th, Tr, Thead, Tbody, Td, IconButton, Stack, Button, Box } from "@chakra-ui/react";
+import { Card, CardBody, Table, Th, Tr, Thead, Tbody, Td, IconButton, Stack, Button, Box, StepSeparator } from "@chakra-ui/react";
 import { AddIcon, EditIcon, DeleteIcon, ArrowUpIcon } from '@chakra-ui/icons';
 import PageTitle from "../../components/PageTitle";
 import { useEffect, useState } from "react";
@@ -47,6 +47,11 @@ const ModelsList = () => {
         return delimiter + new URLSearchParams({ "search": searchExpression });
     }
 
+    function search(searchExpression){
+        setPageNumber(1);
+        setSearchExpression(searchExpression);
+    }
+
     useEffect(() => {
         fetch(countUrl(),
             {
@@ -69,11 +74,7 @@ const ModelsList = () => {
             .then((data) => {
                 setData(data);
             })
-    }, [pageNumber]);
-
-    useEffect(()=>{
-        setPageNumber(1);
-    },[searchExpression])
+    }, [pageNumber, searchExpression]);
 
     return (
         <div>
@@ -83,7 +84,7 @@ const ModelsList = () => {
                 <Stack direction={'row'} spacing={2} verticalAlign={'middle'}>
                     <Button colorScheme='green' leftIcon={<AddIcon />} size='sm' onClick={newModel} >New Model</Button>
                     <SearchInput
-                        executeSearch={(value) => setSearchExpression(value)}>
+                        executeSearch={(value) => search(value)}>
                     </SearchInput>
                 </Stack>
             </Box>
