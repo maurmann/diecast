@@ -1,8 +1,7 @@
 import { useDisclosure, Card, CardBody, Table, Th, Tr, Thead, Tbody, Td, IconButton, Stack, Button, Box } from "@chakra-ui/react";
-import { AddIcon, SearchIcon, EditIcon, DeleteIcon, ArrowUpIcon } from '@chakra-ui/icons';
+import { AddIcon, EditIcon, DeleteIcon, ArrowUpIcon } from '@chakra-ui/icons';
 import PageTitle from "../../components/PageTitle";
 import { useEffect, useState } from "react";
-import ModelsFilter from "./ModelsFilter";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import Pagination from "../../components/pagination/pagination";
@@ -49,10 +48,6 @@ const ModelsList = () => {
         return delimiter + new URLSearchParams({ "search": searchExpression });
     }
 
-    function changePageNumber(pageNumber) {
-        setPageNumber(pageNumber);
-    }
-
     useEffect(() => {
         fetch(countUrl(),
             {
@@ -75,19 +70,19 @@ const ModelsList = () => {
             .then((data) => {
                 setData(data);
             })
-    }, [pageNumber, searchExpression]);
+    }, [pageNumber]);
+
+    useEffect(()=>{
+        setPageNumber(1);
+    },[searchExpression])
 
     return (
         <div>
-            <ModelsFilter isOpen={isOpen} onOpen={onOpen} onClose={onClose}>
-            </ModelsFilter>
-
             <PageTitle Title="Models" SubTitle="List with all models"></PageTitle>
 
             <Box marginBottom={'8px'}>
                 <Stack direction={'row'} spacing={2} verticalAlign={'middle'}>
                     <Button colorScheme='green' leftIcon={<AddIcon />} size='sm' onClick={newModel} >New Model</Button>
-                    <Button colorScheme='blackAlpha' leftIcon={<SearchIcon />} size='sm' onClick={onOpen}>Apply Filters</Button>
                     <SearchInput
                         executeSearch={(value) => setSearchExpression(value)}>
                     </SearchInput>
