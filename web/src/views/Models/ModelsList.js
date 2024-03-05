@@ -77,10 +77,6 @@ const ModelsList = () => {
             })
     }, [pageNumber, searchExpression]);
 
-    const search = (value) => {
-        setSearchExpression(value);
-    }
-
     return (
         <div>
             <ModelsFilter isOpen={isOpen} onOpen={onOpen} onClose={onClose}>
@@ -93,7 +89,7 @@ const ModelsList = () => {
                     <Button colorScheme='green' leftIcon={<AddIcon />} size='sm' onClick={newModel} >New Model</Button>
                     <Button colorScheme='blackAlpha' leftIcon={<SearchIcon />} size='sm' onClick={onOpen}>Apply Filters</Button>
                     <SearchInput
-                        executeSearch={(value) => search(value)}>
+                        executeSearch={(value) => setSearchExpression(value)}>
                     </SearchInput>
                 </Stack>
             </Box>

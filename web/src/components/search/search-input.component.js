@@ -4,11 +4,11 @@ import { SearchIcon } from '@chakra-ui/icons';
 import { useDebounce } from "@uidotdev/usehooks";
 
 const SearchInput = (props) => {
+
     const [searchTerm, setSearchTerm] = useState("");
-    const debouncedSearchTerm = useDebounce(searchTerm, 1000);
+    const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
     const handleChange = (e) => {
-        console.log('handleChange ' + e.target.value);
         setSearchTerm(e.target.value);
     }
 
