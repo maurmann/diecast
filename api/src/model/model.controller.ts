@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  Param,
   ParseIntPipe,
   Post,
   Query,
@@ -14,6 +15,12 @@ import { ZodValidationPipe } from 'src/pipes/zod.validation.pipe';
 @Controller('/models/')
 export class ModelController {
   constructor(private modelService: ModelService) {}
+
+  @Get('/:id')
+  async getById(@Param('id', ParseIntPipe) id: number) {
+    const model = await this.modelService.getById(id);
+    return model;
+  }
 
   @Get()
   async getAll(
