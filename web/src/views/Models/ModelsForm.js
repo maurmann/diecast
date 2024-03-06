@@ -123,10 +123,6 @@ const ModelsForm = () => {
                     </Box>
                 </CardBody>
             </Card >
-
-
-
-
         </>
     )
 };

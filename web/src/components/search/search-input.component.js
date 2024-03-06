@@ -12,12 +12,12 @@ const SearchInput = (props) => {
     }
 
     useEffect(() => {
-        props.executeSearch(searchTerm);
+        props.search(searchTerm);
     }, [debouncedSearchTerm])
 
     return (
         <InputGroup>
-            {debouncedSearchTerm != searchTerm &&
+            {props.isLoading &&
                 (
                     <InputLeftElement pointerEvents='none'>
                         <CircularProgress isIndeterminate size="20px" color='green.300' />

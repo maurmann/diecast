@@ -14,6 +14,7 @@ const ModelsList = () => {
     const [pageNumber, setPageNumber] = useState(1);
     const [rows, setRows] = useState(0);
     const [searchExpression, setSearchExpression] = useState("");
+    const [isLoading,setIsLoading] = useState(false);
 
     const newModel = () => {
         navigate('/models/form');
@@ -48,6 +49,7 @@ const ModelsList = () => {
     }
 
     function search(searchExpression){
+        setIsLoading(true);
         setPageNumber(1);
         setSearchExpression(searchExpression);
     }
@@ -76,6 +78,10 @@ const ModelsList = () => {
             })
     }, [pageNumber, searchExpression]);
 
+    useEffect(()=>{
+        setIsLoading(false);
+    },[data])
+
     return (
         <div>
             <PageTitle Title="Models" SubTitle="List with all models"></PageTitle>
@@ -84,7 +90,8 @@ const ModelsList = () => {
                 <Stack direction={'row'} spacing={2} verticalAlign={'middle'}>
                     <Button colorScheme='green' leftIcon={<AddIcon />} size='sm' onClick={newModel} >New Model</Button>
                     <SearchInput
-                        executeSearch={(value) => search(value)}>
+                        search={(value) => search(value)}
+                        isLoading={isLoading}>
                     </SearchInput>
                 </Stack>
             </Box>
