@@ -7,6 +7,12 @@ import { PrismaService } from 'src/prisma.service';
 export class ModelService {
   constructor(private prisma: PrismaService) {}
 
+  async getById(id: number) {
+    return this.prisma.model.findUnique({
+      where: { id: id },
+    });
+  }
+
   async getAll(pageNumber: number, search: string): Promise<model[]> {
     pageNumber = pageNumber < 1 ? 1 : pageNumber;
 

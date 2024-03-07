@@ -1,7 +1,7 @@
 import PageTitle from "../../components/PageTitle";
 import { Card, CardBody, Input, Box, Stack, Button, FormControl, FormLabel, FormErrorMessage, FormHelperText, VStack, useToast } from '@chakra-ui/react'
 import { useLocation } from "react-router-dom"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import BrandSelect from "../../components/select/brand-select.component";
 import SeriesSelect from "../../components/select/series-select.component";
 import { ArrowBackIcon, CheckIcon } from "@chakra-ui/icons";
@@ -16,7 +16,7 @@ const ModelsForm = () => {
     const id = queryParameters.get("id")
     const [message, setMessage] = useState(id ? "Editing a model" : "New model");
     const [name, setName] = useState("");
-    const [brandId, setBrandId] = useState(0);
+    const [brandId, setBrandId] = useState();
     const [seriesId, setSeriesId] = useState(0);
     const [manufacturerId, setManufacturerId] = useState(0);
     const [year, setYear] = useState("");
@@ -64,6 +64,22 @@ const ModelsForm = () => {
         )
     }
 
+    useEffect(()=>{
+            fetch('http://localhost:3001/models/id/' + id,{method:"GET"})
+            .then((response)=>response.json())
+            .then((data)=>{
+                setName(data.name);
+                setBrandId(data.brandId);
+                setSeriesId(data.seriesId);
+                setManufacturerId(data.manufacturerId);
+                setYear(data.year);
+                setCategoryId(data.categoryId);
+                setDetail(data.detail);
+                setCode(data.code);
+            })
+    },[id]);
+
+
     return (
         <>
             <PageTitle Title="Models" SubTitle={message}></PageTitle>
@@ -73,7 +89,7 @@ const ModelsForm = () => {
                     <VStack spacing="12px">
                         <FormControl className={"form-controls"}>
                             <FormLabel>Name</FormLabel>
-                            <Input colorScheme="whiteAlpha" type='text' onChange={e => setName(e.target.value)} />
+                            <Input colorScheme="whiteAlpha" type='text' value={name} onChange={e => setName(e.target.value)} />
                         </FormControl>
                         <FormControl className={"form-controls"}>
                             <FormLabel>Brand</FormLabel>

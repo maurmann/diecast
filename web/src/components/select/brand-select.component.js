@@ -4,6 +4,8 @@ import { brandGetAllEndpoint } from "../../constants/endpoints";
 
 const BrandSelect = (props) => {
 
+    console.log('brand ' + props.value);
+
     const [data, setData] = useState([]);
 
     useEffect(() => {
@@ -16,7 +18,8 @@ const BrandSelect = (props) => {
         <GenericSelect
             placeholder={"Select a brand"}
             data={data}
-            onParentChange={(value) => props.onParentChange(value)}>
+            onParentChange={(value) => props.onParentChange(value)}
+            value={props.value}>
         </GenericSelect>
     )
 }
