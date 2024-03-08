@@ -9,6 +9,7 @@ import { modelMapper } from "../../mappers/model.mapper";
 import ManufacturerSelectList from "../../components/select/manufacturer-select.component";
 import CategorySelect from "../../components/select/category-select-component";
 import { useNavigate } from "react-router-dom";
+import { Create,Update } from "../Models/model-service";
 
 const ModelsForm = () => {
     const location = useLocation();
@@ -35,6 +36,11 @@ const ModelsForm = () => {
         event.preventDefault();
         const model = modelMapper(name, brandId, seriesId, manufacturerId, year, categoryId, detail, code);
         try {
+
+            id > 0 ? await Update(id, model) : await Create(model);
+
+
+            /*
             const response = await fetch("http://localhost:3001/models", {
                 method: "POST",
                 headers: {
@@ -42,6 +48,7 @@ const ModelsForm = () => {
                 },
                 body: JSON.stringify(model),
             });
+            */
 
             showConfirmation(model.name);
             navigate('/models');
@@ -50,9 +57,12 @@ const ModelsForm = () => {
         }
     }
 
+
+
+
     // TODO: use a promisse toast instead
     function showConfirmation(modelName) {
-        
+
         return (
             toast({
                 title: 'Model created.',
@@ -64,20 +74,21 @@ const ModelsForm = () => {
         )
     }
 
-    useEffect(()=>{
-            fetch('http://localhost:3001/models/id/' + id,{method:"GET"})
-            .then((response)=>response.json())
-            .then((data)=>{
-                setName(data.name);
-                setBrandId(data.brandId);
-                setSeriesId(data.seriesId);
-                setManufacturerId(data.manufacturerId);
-                setYear(data.year);
-                setCategoryId(data.categoryId);
-                setDetail(data.detail);
-                setCode(data.code);
+    useEffect(() => {
+        fetch('http://localhost:3001/models/id/' + id, { method: "GET" })
+            .then((response) => response.json())
+            .then((data) => {
+
+                setName(data.name ?? "");
+                setBrandId(data.brand_id ?? 0);
+                setSeriesId(data.series_id ?? 0);
+                setManufacturerId(data.manufacturer_id ?? 0);
+                setYear(data.year ?? "");
+                setCategoryId(data.category_id ?? 0);
+                setDetail(data.detail ?? "");
+                setCode(data.code ?? "");
             })
-    },[id]);
+    }, []);
 
 
     return (
@@ -109,25 +120,31 @@ const ModelsForm = () => {
                         <FormControl className={"form-controls"}>
                             <FormLabel>Manufacturer</FormLabel>
                             <ManufacturerSelectList
+                                value={manufacturerId}
                                 onParentChange={value => setManufacturerId(value)} />
                         </FormControl>
                         <FormControl className={"form-controls"}>
                             <FormLabel>Year</FormLabel>
                             <Input colorScheme="whiteAlpha" type='number'
+                                value={year}
                                 onChange={e => setYear(e.target.value)} />
                         </FormControl>
                         <FormControl>
                             <FormLabel>Category</FormLabel>
                             <CategorySelect
+                                value={categoryId}
                                 onParentChange={value => setCategoryId(value)} />
                         </FormControl>
                         <FormControl>
                             <FormLabel>Details</FormLabel>
-                            <Input colorScheme="whiteAlpha" type="text" onChange={e => setDetail(e.target.value)} />
+                            <Input colorScheme="whiteAlpha" type="text"
+                                value={detail}
+                                onChange={e => setDetail(e.target.value)} />
                         </FormControl>
                         <FormControl>
                             <FormLabel>Code</FormLabel>
                             <Input colorScheme="whiteAlpha" type="text"
+                                value={code}
                                 onChange={e => setCode(e.target.value)} />
                         </FormControl>
                     </VStack>

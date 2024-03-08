@@ -58,6 +58,24 @@ export class ModelService {
     });
   }
 
+  async update(id: number, model: ModelCreateDto) {
+    await this.prisma.model.update({
+      data: {
+        name: model.name,
+        brand_id: model.brandId,
+        series_id: model.seriesId,
+        manufacturer_id: model.manufacturerId,
+        year: model.year,
+        category_id: model.categoryId,
+        detail: model.detail,
+        code: model.code,
+      },
+      where: {
+        id: id,
+      },
+    });
+  }
+
   buildSearchCondition(search: string) {
     if (!search) {
       return {};

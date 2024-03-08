@@ -16,7 +16,8 @@ const CategorySelect = (props) => {
         <GenericSelect
             placeholder={"Select a category"}
             data={data}
-            onParentChange={(value) => props.onParentChange(value)}>
+            onParentChange={(value) => props.onParentChange(value)}
+            value={props.value}>
         </GenericSelect>
     )
 }

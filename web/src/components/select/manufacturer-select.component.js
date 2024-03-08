@@ -16,7 +16,8 @@ const ManufacturerSelectList = (props) => {
         <GenericSelect
             placeholder={"Select a manufacturer"}
             data={data}
-            onParentChange={(value) => props.onParentChange(value)}>
+            onParentChange={(value) => props.onParentChange(value)}
+            value={props.value}>
         </GenericSelect>
     )
 }

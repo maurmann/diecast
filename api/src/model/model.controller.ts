@@ -5,6 +5,7 @@ import {
   Param,
   ParseIntPipe,
   Post,
+  Put,
   Query,
   UsePipes,
 } from '@nestjs/common';
@@ -41,5 +42,15 @@ export class ModelController {
   @UsePipes(new ZodValidationPipe(modelCreateSchema))
   async create(@Body() newModel: ModelCreateDto) {
     await this.modelService.create(newModel);
+  }
+
+  @Put('/id/:id')
+  //@UsePipes(new ZodValidationPipe(modelCreateSchema))
+  async update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() existingModel: ModelCreateDto,
+  ) {
+    console.log(existingModel);
+    await this.modelService.update(id, existingModel);
   }
 }
