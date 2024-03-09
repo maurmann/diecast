@@ -36,19 +36,8 @@ const ModelsForm = () => {
         event.preventDefault();
         const model = modelMapper(name, brandId, seriesId, manufacturerId, year, categoryId, detail, code);
         try {
-
             id > 0 ? await Update(id, model) : await Create(model);
-
-
-            /*
-            const response = await fetch("http://localhost:3001/models", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(model),
-            });
-            */
+           
 
             showConfirmation(model.name);
             navigate('/models');

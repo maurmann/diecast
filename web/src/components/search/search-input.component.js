@@ -15,24 +15,35 @@ const SearchInput = (props) => {
         props.search(searchTerm);
     }, [debouncedSearchTerm])
 
+    //                 {
+    //    !props.idLoading && (
+    //      <SearchIcon />
+    //    )
+    //}
+
+    //
+    //
+    //
+    //
+
+    const getColor = ()=> {
+        return props.isLoading? "green.300" : "white.800"; 
+    }
+
     return (
         <InputGroup>
-            {props.isLoading &&
-                (
-                    <InputLeftElement pointerEvents='none'>
-                        <CircularProgress isIndeterminate size="20px" color='green.300' />
-                    </InputLeftElement>
-                )
-            }
-            <InputRightElement pointerEvents='none'>
-                <SearchIcon />
-            </InputRightElement>
+            <InputLeftElement pointerEvents='none'>
+                <CircularProgress isIndeterminate size="20px" color = {getColor} />
+            </InputLeftElement>
             <Input
                 type='search'
                 placeholder='Search models by code or name'
                 bg={'gray.100'}
                 onChange={handleChange}>
             </Input>
+            <InputRightElement>
+                <SearchIcon></SearchIcon>
+            </InputRightElement>
         </InputGroup>
     )
 }
