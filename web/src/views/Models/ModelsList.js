@@ -1,11 +1,12 @@
-import { Card, CardBody, Table, Th, Tr, Thead, Tbody, Td, IconButton, Stack, Button, Box, StepSeparator } from "@chakra-ui/react";
-import { AddIcon, EditIcon, DeleteIcon, ArrowUpIcon } from '@chakra-ui/icons';
+import { Card, CardBody, Stack, Button, Box } from "@chakra-ui/react";
+import { AddIcon } from '@chakra-ui/icons';
 import PageTitle from "../../components/PageTitle";
 import { useEffect, useState } from "react";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import Pagination from "../../components/pagination/pagination";
 import SearchInput from "../../components/search/search-input.component";
+import ModelTable from "../../components/model-table/model-table.component";
 
 const ModelsList = () => {
 
@@ -14,15 +15,13 @@ const ModelsList = () => {
     const [pageNumber, setPageNumber] = useState(1);
     const [rows, setRows] = useState(0);
     const [searchExpression, setSearchExpression] = useState("");
-    const [isLoading,setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     const newModel = () => {
         navigate('/models/form');
     }
 
-    const editModel = (id, event) => {
-        navigate(`/models/form?id=${id}`);
-    }
+
 
     const deleteModel = (id, event) => {
     }
@@ -48,7 +47,7 @@ const ModelsList = () => {
         return delimiter + new URLSearchParams({ "search": searchExpression });
     }
 
-    function search(searchExpression){
+    function search(searchExpression) {
         setIsLoading(true);
         setPageNumber(1);
         setSearchExpression(searchExpression);
@@ -78,14 +77,13 @@ const ModelsList = () => {
             })
     }, [pageNumber, searchExpression]);
 
-    useEffect(()=>{
+    useEffect(() => {
         setIsLoading(false);
-    },[data])
+    }, [data])
 
     return (
         <div>
             <PageTitle Title="Models" SubTitle="List with all models"></PageTitle>
-
             <Box marginBottom={'8px'}>
                 <Stack direction={'row'} spacing={2} verticalAlign={'middle'}>
                     <Button colorScheme='green' leftIcon={<AddIcon />} size='sm' onClick={newModel} >New Model</Button>
@@ -95,63 +93,9 @@ const ModelsList = () => {
                     </SearchInput>
                 </Stack>
             </Box>
-
             <Card>
                 <CardBody>
-                    <Table variant='simple'>
-                        <Thead>
-                            <Tr>
-                                <Th>Id</Th>
-                                <Th>Brand<ArrowUpIcon /> </Th>
-                                <Th>Series</Th>
-                                <Th>Model</Th>
-                                <Th>Manufacturer</Th>
-                                <Th>Details</Th>
-                                <Th>Year</Th>
-                                <Th>Origin</Th>
-                                <Th>Category</Th>
-                                <Th>Code</Th>
-                                <Th>Edit</Th>
-                                <Th>Delete</Th>
-                            </Tr>
-                        </Thead>
-                        <Tbody>
-                            {data.map((d) => {
-                                return (
-                                    <Tr key={d.id}>
-                                        <Td>{d.id}</Td>
-                                        <Td>{d.brand.name}</Td>
-                                        <Td>{d.series?.name}</Td>
-                                        <Td>{d.name}</Td>
-                                        <Td>{d.manufacturer?.name}</Td>
-                                        <Td>{d.detail}</Td>
-                                        <Td>{d.year}</Td>
-                                        <Td>{d.manufacturer?.country?.name}</Td>
-                                        <Td>{d.category?.name}</Td>
-                                        <Td>{d.code}</Td>
-                                        <Td>
-                                            <IconButton
-                                                isRound={false}
-                                                colorScheme="blue"
-                                                size="sm"
-                                                variant='outline'
-                                                icon={<EditIcon />}
-                                                onClick={(event) => editModel(d.id, event)} />
-                                        </Td>
-                                        <Td>
-                                            <IconButton
-                                                isRound={false}
-                                                colorScheme="blue"
-                                                size="sm"
-                                                variant='outline'
-                                                icon={<DeleteIcon />}
-                                                onClick={(event) => deleteModel(d.id, event)} /></Td>
-                                    </Tr>
-                                )
-                            })}
-                        </Tbody>
-                    </Table>
-
+                    <ModelTable data={data}></ModelTable>
                 </CardBody>
             </Card>
             <Pagination
