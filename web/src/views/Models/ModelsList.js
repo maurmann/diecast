@@ -9,7 +9,6 @@ import SearchInput from "../../components/search/search-input.component";
 import ModelTable from "../../components/model-table/model-table.component";
 
 const ModelsList = () => {
-
     const navigate = useNavigate();
     const [data, setData] = useState([]);
     const [pageNumber, setPageNumber] = useState(1);
@@ -19,11 +18,6 @@ const ModelsList = () => {
 
     const newModel = () => {
         navigate('/models/form');
-    }
-
-
-
-    const deleteModel = (id, event) => {
     }
 
     function countUrl() {
