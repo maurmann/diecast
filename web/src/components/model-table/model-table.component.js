@@ -16,7 +16,7 @@ const ModelTable = ({ data }) => {
     }
 
     const deleteModel = (id,name, event) => {
-        setDeleteConfirmationMessage(`Confirme delete of model ${name}?`);
+        setDeleteConfirmationMessage(`Confirm delete of model (${id}) ${name}?`);
         setShowDeleteAction(true);
     }
 
