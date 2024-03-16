@@ -1,16 +1,18 @@
 import { AlertDialog, AlertDialogBody, AlertDialogFooter, AlertDialogHeader, AlertDialogContent, AlertDialogOverlay, AlertDialogCloseButton, Button, } from '@chakra-ui/react';
 import { useDisclosure } from '@chakra-ui/react';
 import React from "react";
+import { useEffect, useState } from "react";
 
 const DeleteConfirmation = (props) => {
-
     const { isOpen, onOpen, onClose } = useDisclosure()
     const cancelRef = React.useRef()
 
-    const open = () => {
-        alert('lasca');
-        //onOpen();
-    }
+    useEffect(() => {
+        if (props.showDeleteAction){
+            onOpen();
+            props.afterOpened();
+        }
+    }, [props.showDeleteAction]);
 
     return (
         <>
@@ -22,13 +24,11 @@ const DeleteConfirmation = (props) => {
                 <AlertDialogOverlay>
                     <AlertDialogContent>
                         <AlertDialogHeader fontSize='lg' fontWeight='bold'>
-                            Delete Customer
+                            {props.title}
                         </AlertDialogHeader>
-
                         <AlertDialogBody>
-                            Are you sure? You can't undo this action afterwards.
+                            {props.message}
                         </AlertDialogBody>
-
                         <AlertDialogFooter>
                             <Button ref={cancelRef} onClick={onClose}>
                                 Cancel

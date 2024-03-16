@@ -1,23 +1,23 @@
-import { React, useRef } from "react";
+import { React, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Table, Th, Tr, Thead, Tbody, Td, IconButton, useDisclosure, Button, AlertDialog, AlertDialogBody, AlertDialogFooter, AlertDialogHeader, AlertDialogContent, AlertDialogOverlay, AlertDialogCloseButton, } from "@chakra-ui/react";
 import { EditIcon, DeleteIcon, ArrowUpIcon } from '@chakra-ui/icons';
+import DeleteConfirmation from "../delete-confirmation/delete-confirmation.component";
 
 const ModelTable = ({ data }) => {
 
     const navigate = useNavigate();
 
-    const { isOpen, onOpen, onClose } = useDisclosure()
-    const cancelRef = useRef()
+    const [showDeleteAction, setShowDeleteAction] = useState(false);
+    const [deleteConfirmationMessage,setDeleteConfirmationMessage] = useState("");
 
     const editModel = (id, event) => {
         navigate(`/models/form?id=${id}`);
     }
 
-    const deleteModel = (id, event) => {
-
-        onOpen();
-
+    const deleteModel = (id,name, event) => {
+        setDeleteConfirmationMessage(`Confirme delete of model ${name}?`);
+        setShowDeleteAction(true);
     }
 
     return (
@@ -69,7 +69,7 @@ const ModelTable = ({ data }) => {
                                         size="sm"
                                         variant='outline'
                                         icon={<DeleteIcon />}
-                                        onClick={(e) => deleteModel(d.id, e)} />
+                                        onClick={(e) => deleteModel(d.id,d.name, e)} />
                                 </Td>
                             </Tr>
                         )
@@ -77,30 +77,11 @@ const ModelTable = ({ data }) => {
                 </Tbody>
             </Table>
 
-            <AlertDialog
-                motionPreset='slideInBottom'
-                leastDestructiveRef={cancelRef}
-                onClose={onClose}
-                isOpen={isOpen}
-                isCentered>
-                <AlertDialogOverlay />
-
-                <AlertDialogContent>
-                    <AlertDialogHeader>Delete this model?</AlertDialogHeader>
-                    <AlertDialogCloseButton />
-                    <AlertDialogBody>
-                        Are you sure you want to this model?
-                    </AlertDialogBody>
-                    <AlertDialogFooter>
-                        <Button ref={cancelRef} onClick={onClose}>
-                            No
-                        </Button>
-                        <Button colorScheme='red' ml={3}>
-                            Yes
-                        </Button>
-                    </AlertDialogFooter>
-                </AlertDialogContent>
-            </AlertDialog>
+            <DeleteConfirmation
+                title={"Delete Model"} 
+                message={deleteConfirmationMessage}
+                showDeleteAction={showDeleteAction} 
+                afterOpened={()=>setShowDeleteAction(false)}></DeleteConfirmation>
         </>
     )
 }
