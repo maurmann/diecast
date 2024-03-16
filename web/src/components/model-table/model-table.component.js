@@ -1,6 +1,6 @@
 import { React, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Table, Th, Tr, Thead, Tbody, Td, IconButton, useDisclosure, Button, AlertDialog, AlertDialogBody, AlertDialogFooter, AlertDialogHeader, AlertDialogContent, AlertDialogOverlay, AlertDialogCloseButton, } from "@chakra-ui/react";
+import { Table, Th, Tr, Thead, Tbody, Td, IconButton } from "@chakra-ui/react";
 import { EditIcon, DeleteIcon, ArrowUpIcon } from '@chakra-ui/icons';
 import DeleteConfirmation from "../delete-confirmation/delete-confirmation.component";
 
@@ -16,7 +16,7 @@ const ModelTable = ({ data }) => {
     }
 
     const deleteModel = (id,name, event) => {
-        setDeleteConfirmationMessage(`Confirm delete of model (${id}) ${name}?`);
+        setDeleteConfirmationMessage(`Confirm deletion of model (${id}) ${name}?`);
         setShowDeleteAction(true);
     }
 
