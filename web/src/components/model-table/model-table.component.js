@@ -9,15 +9,21 @@ const ModelTable = ({ data }) => {
     const navigate = useNavigate();
 
     const [showDeleteAction, setShowDeleteAction] = useState(false);
-    const [deleteConfirmationMessage,setDeleteConfirmationMessage] = useState("");
+    const [deleteConfirmationMessage, setDeleteConfirmationMessage] = useState("");
+    const [idToDelete,setIdToDelete] = useState(0);
 
     const editModel = (id, event) => {
         navigate(`/models/form?id=${id}`);
     }
 
-    const deleteModel = (id,name, event) => {
+    const deleteModel = (id, name, event) => {
         setDeleteConfirmationMessage(`Confirm deletion of model (${id}) ${name}?`);
         setShowDeleteAction(true);
+        setIdToDelete(id);
+    }
+
+    const executeDelete = ()=> {
+        
     }
 
     return (
@@ -69,7 +75,7 @@ const ModelTable = ({ data }) => {
                                         size="sm"
                                         variant='outline'
                                         icon={<DeleteIcon />}
-                                        onClick={(e) => deleteModel(d.id,d.name, e)} />
+                                        onClick={(e) => deleteModel(d.id, d.name, e)} />
                                 </Td>
                             </Tr>
                         )
@@ -78,10 +84,12 @@ const ModelTable = ({ data }) => {
             </Table>
 
             <DeleteConfirmation
-                title={"Delete Model"} 
+                title={"Delete Model"}
                 message={deleteConfirmationMessage}
-                showDeleteAction={showDeleteAction} 
-                afterOpened={()=>setShowDeleteAction(false)}></DeleteConfirmation>
+                showDeleteAction={showDeleteAction}
+                afterOpened={() => setShowDeleteAction(false)}
+                afterConfirmed={() => executeDelete()}>
+            </DeleteConfirmation>
         </>
     )
 }

@@ -1,4 +1,4 @@
-import { AlertDialog, AlertDialogBody, AlertDialogFooter, AlertDialogHeader, AlertDialogContent, AlertDialogOverlay, AlertDialogCloseButton, Button, } from '@chakra-ui/react';
+import { AlertDialog, AlertDialogBody, AlertDialogFooter, AlertDialogHeader, AlertDialogContent, AlertDialogOverlay, Button, } from '@chakra-ui/react';
 import { useDisclosure } from '@chakra-ui/react';
 import React from "react";
 import { useEffect } from "react";
@@ -13,6 +13,11 @@ const DeleteConfirmation = (props) => {
             props.afterOpened();
         }
     }, [props.showDeleteAction]);
+
+    const confirmDelete = ()=> {
+        onClose();
+        props.afterConfirmed();
+    }
 
     return (
         <>
@@ -33,7 +38,7 @@ const DeleteConfirmation = (props) => {
                             <Button ref={cancelRef} onClick={onClose}>
                                 Cancel
                             </Button>
-                            <Button colorScheme='red' onClick={onClose} ml={3}>
+                            <Button colorScheme='red' onClick={confirmDelete} ml={3}>
                                 Delete
                             </Button>
                         </AlertDialogFooter>
