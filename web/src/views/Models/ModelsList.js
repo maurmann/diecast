@@ -46,7 +46,7 @@ const ModelsList = () => {
         setPageNumber(1);
         setSearchExpression(searchExpression);
     }
-
+   
     useEffect(() => {
         fetch(countUrl(),
             {
@@ -57,7 +57,7 @@ const ModelsList = () => {
             .then((data) => {
                 setRows(data);
             })
-    }, [searchExpression]);
+    }, [ searchExpression]);
 
     useEffect(() => {
         fetch(listUrl(),
@@ -69,7 +69,7 @@ const ModelsList = () => {
             .then((data) => {
                 setData(data);
             })
-    }, [pageNumber, searchExpression]);
+    }, [ pageNumber, searchExpression]);
 
     useEffect(() => {
         setIsLoading(false);
