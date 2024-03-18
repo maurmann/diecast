@@ -76,6 +76,14 @@ export class ModelService {
     });
   }
 
+  async delete(id: number) {
+    await this.prisma.model.delete({
+      where: {
+        id: id,
+      },
+    });
+  }
+
   buildSearchCondition(search: string) {
     if (!search) {
       return {};

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Table, Th, Tr, Thead, Tbody, Td, IconButton } from "@chakra-ui/react";
 import { EditIcon, DeleteIcon, ArrowUpIcon } from '@chakra-ui/icons';
 import DeleteConfirmation from "../delete-confirmation/delete-confirmation.component";
+import { Delete } from "../../views/Models/model-service";
 
 const ModelTable = ({ data }) => {
 
@@ -17,13 +18,13 @@ const ModelTable = ({ data }) => {
     }
 
     const deleteModel = (id, name, event) => {
-        setDeleteConfirmationMessage(`Confirm deletion of model (${id}) ${name}?`);
+        setDeleteConfirmationMessage(`Confirm deletion of model ${name} with id ${id}?`);
         setShowDeleteAction(true);
         setIdToDelete(id);
     }
 
-    const executeDelete = ()=> {
-        
+    const executeDelete = async ()=> {
+        await Delete(idToDelete);
     }
 
     return (

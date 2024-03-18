@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   ParseIntPipe,
@@ -44,13 +45,16 @@ export class ModelController {
     await this.modelService.create(newModel);
   }
 
+  @Delete('/id/:id')
+  async delete(@Param('id', ParseIntPipe) id: number) {
+    await this.modelService.delete(id);
+  }
+
   @Put('/id/:id')
-  //@UsePipes(new ZodValidationPipe(modelCreateSchema))
   async update(
     @Param('id', ParseIntPipe) id: number,
     @Body() existingModel: ModelCreateDto,
   ) {
-    console.log(existingModel);
     await this.modelService.update(id, existingModel);
   }
 }

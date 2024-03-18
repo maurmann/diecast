@@ -17,3 +17,9 @@ export const Update = async (id, model) => {
         body: JSON.stringify(model),
     });
 };
+
+export const Delete = async(id)=>{
+    await fetch("http://localhost:3001/models/id/" + id, {
+        method: "DELETE",
+    });
+}
