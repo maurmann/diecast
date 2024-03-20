@@ -4,6 +4,7 @@ import { Table, Th, Tr, Thead, Tbody, Td, IconButton } from "@chakra-ui/react";
 import { EditIcon, DeleteIcon, ArrowUpIcon } from '@chakra-ui/icons';
 import DeleteConfirmation from "../delete-confirmation/delete-confirmation.component";
 import { Delete } from "../../views/Models/model-service";
+import { useWindowScroll } from "@uidotdev/usehooks";
 
 const ModelTable = ({ data }) => {
 
@@ -25,6 +26,7 @@ const ModelTable = ({ data }) => {
 
     const executeDelete = async ()=> {
         await Delete(idToDelete);
+        window.location.reload();
     }
 
     return (
