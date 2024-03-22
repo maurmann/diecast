@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import Pagination from "../../components/pagination/pagination";
 import SearchInput from "../../components/search/search-input.component";
 import ModelTable from "../../components/model-table/model-table.component";
+import { Delete } from "../Models/model-service";
 
 const ModelsList = () => {
     const navigate = useNavigate();
@@ -15,6 +16,7 @@ const ModelsList = () => {
     const [rows, setRows] = useState(0);
     const [searchExpression, setSearchExpression] = useState("");
     const [isLoading, setIsLoading] = useState(false);
+    const [reload, setReload] = useState(false);
 
     const newModel = () => {
         navigate('/models/form');
@@ -46,7 +48,12 @@ const ModelsList = () => {
         setPageNumber(1);
         setSearchExpression(searchExpression);
     }
-   
+
+    function deleteModel(id) {
+        Delete(id);
+        setReload(true);
+    }
+
     useEffect(() => {
         fetch(countUrl(),
             {
@@ -57,7 +64,7 @@ const ModelsList = () => {
             .then((data) => {
                 setRows(data);
             })
-    }, [ searchExpression]);
+    }, [reload,searchExpression]);
 
     useEffect(() => {
         fetch(listUrl(),
@@ -69,7 +76,7 @@ const ModelsList = () => {
             .then((data) => {
                 setData(data);
             })
-    }, [ pageNumber, searchExpression]);
+    }, [reload,pageNumber, searchExpression]);
 
     useEffect(() => {
         setIsLoading(false);
@@ -89,7 +96,10 @@ const ModelsList = () => {
             </Box>
             <Card>
                 <CardBody>
-                    <ModelTable data={data}></ModelTable>
+                    <ModelTable
+                        data={data}
+                        onDelete={(id) => deleteModel(id)}>
+                    </ModelTable>
                 </CardBody>
             </Card>
             <Pagination
