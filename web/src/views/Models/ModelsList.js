@@ -16,7 +16,7 @@ const ModelsList = () => {
     const [rows, setRows] = useState(0);
     const [searchExpression, setSearchExpression] = useState("");
     const [isLoading, setIsLoading] = useState(false);
-    const [reload, setReload] = useState(false);
+    const [reload, setReload] = useState(0);
 
     const newModel = () => {
         navigate('/models/form');
@@ -51,7 +51,7 @@ const ModelsList = () => {
 
     function deleteModel(id) {
         Delete(id);
-        setReload(true);
+        setReload(id);
     }
 
     useEffect(() => {
@@ -64,7 +64,7 @@ const ModelsList = () => {
             .then((data) => {
                 setRows(data);
             })
-    }, [reload,searchExpression]);
+    }, [reload, searchExpression]);
 
     useEffect(() => {
         fetch(listUrl(),
@@ -76,7 +76,7 @@ const ModelsList = () => {
             .then((data) => {
                 setData(data);
             })
-    }, [reload,pageNumber, searchExpression]);
+    }, [reload, pageNumber, searchExpression]);
 
     useEffect(() => {
         setIsLoading(false);
