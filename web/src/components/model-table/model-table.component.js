@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Table, Th, Tr, Thead, Tbody, Td, IconButton } from "@chakra-ui/react";
 import { EditIcon, DeleteIcon, ArrowUpIcon, CheckIcon } from '@chakra-ui/icons';
@@ -12,7 +12,20 @@ const ModelTable = ({ data }) => {
     const [showDeleteAction, setShowDeleteAction] = useState(false);
     const [deleteConfirmationMessage, setDeleteConfirmationMessage] = useState("");
     const [idToDelete, setIdToDelete] = useState(0);
-    const [deletedIds, setDeletedIds] = useState([]);
+    const [actionState, setActionState] = useState([]);
+
+    //console.log(data);
+
+    const initializeActionState = () => {
+        const initialState = new Array(data.length).fill(true);
+        //console.log(initialState);
+        setActionState(initialState);
+    };
+
+    useEffect(() => {
+        initializeActionState();
+        //console.log(actionState);
+    }, [data])
 
     const editModel = (id, event) => {
         navigate(`/models/form?id=${id}`);
@@ -24,87 +37,136 @@ const ModelTable = ({ data }) => {
         setIdToDelete(id);
     }
 
+
+    // TODO
+    //
+    // actionState cannot be referenced by index when render the content.
+    // I believe a possible solution is:
+    //   1. add the property to the data 
+    //   2. initialize the property with true for all items
+    //   3. render using the property with map 
+
+
     const executeDelete = async () => {
         // await Delete(idToDelete);
         // window.location.reload();
-        const ids = deletedIds;
-        ids.push(idToDelete);
-        setDeletedIds(ids);
-    }
 
-    const deleteIcon = (id) => {
-        const indexOfDeleted = deletedIds.indexOf(id);
-        if (indexOfDeleted == -1){
-            return (<DeleteIcon />);
+        console.log(idToDelete);
+        const index = data.findIndex((item) => item.id == idToDelete);
+        console.log(index);
+
+        if (index>=0){
+            const changedActionState = actionState;
+            changedActionState[index] = false;
+            setActionState(changedActionState);
+
+            console.log(actionState);
+
         }
-        return (<CheckIcon />);
+
+
+        //const ids = deletedIds;
+        //ids.push(idToDelete);
+        //setDeletedIds(ids);
+        //setActionEnabled(false);
+/*
+        const tableRows = tableData;
+
+        console.log(`tableRows: ${tableRows}`);
+
+        const tableRow = tableRows.find((row) => row.id == idToDelete);
+
+        console.log(`tableRow: ${tableRow}`);
+
+        if (tableRow) {
+            tableRow.actionState = false;
+            setTableData(tableRows);
+        }
+
+*/
+
     }
 
-return (
-    <>
-        <Table variant='simple'>
-            <Thead>
-                <Tr>
-                    <Th>Id</Th>
-                    <Th>Brand<ArrowUpIcon /> </Th>
-                    <Th>Series</Th>
-                    <Th>Model</Th>
-                    <Th>Manufacturer</Th>
-                    <Th>Details</Th>
-                    <Th>Year</Th>
-                    <Th>Origin</Th>
-                    <Th>Category</Th>
-                    <Th>Code</Th>
-                    <Th>Edit</Th>
-                    <Th>Delete</Th>
-                </Tr>
-            </Thead>
-            <Tbody>
-                {data.map((d) => {
-                    return (
-                        <Tr key={d.id} rowid={d.id}>
-                            <Td>{d.id}</Td>
-                            <Td>{d.brand.name}</Td>
-                            <Td>{d.series?.name}</Td>
-                            <Td>{d.name}</Td>
-                            <Td>{d.manufacturer?.name}</Td>
-                            <Td>{d.detail}</Td>
-                            <Td>{d.year}</Td>
-                            <Td>{d.manufacturer?.country?.name}</Td>
-                            <Td>{d.category?.name}</Td>
-                            <Td>{d.code}</Td>
-                            <Td>
-                                <IconButton
-                                    isRound={false}
-                                    colorScheme="blue"
-                                    size="sm"
-                                    variant='outline'
-                                    icon={<EditIcon />}
-                                    onClick={(event) => editModel(d.id, event)} />
-                            </Td>
-                            <Td>
-                                <IconButton
-                                    isRound={false}
-                                    colorScheme="blue"
-                                    size="sm"
-                                    variant='outline'
-                                    icon={deleteIcon(d.id)}
-                                    onClick={(e) => deleteModel(d.id, d.name, e)} />
-                            </Td>
-                        </Tr>
-                    )
-                })}
-            </Tbody>
-        </Table>
 
-        <DeleteConfirmation
-            title={"Delete Model"}
-            message={deleteConfirmationMessage}
-            showDeleteAction={showDeleteAction}
-            afterOpened={() => setShowDeleteAction(false)}
-            afterConfirmed={() => executeDelete()}>
-        </DeleteConfirmation>
-    </>
-)
+    //    const isDeleteButtonDisabled = (id) => {
+    //        return isIdDeleted(id);
+    //}
+    //
+    //const isIdDeleted = (id) => {
+    //return deletedIds
+    //&& deletedIds.length > 0
+    //&& deletedIds.indexOf(id) >= 0;
+    //}
+
+    
+
+    return (
+        <>
+            <Table variant='simple'>
+                <Thead>
+                    <Tr>
+                        <Th>Id</Th>
+                        <Th>Brand<ArrowUpIcon /> </Th>
+                        <Th>Series</Th>
+                        <Th>Model</Th>
+                        <Th>Manufacturer</Th>
+                        <Th>Details</Th>
+                        <Th>Year</Th>
+                        <Th>Origin</Th>
+                        <Th>Category</Th>
+                        <Th>Code</Th>
+                        <Th>Edit</Th>
+                        <Th>Delete</Th>
+                    </Tr>
+                </Thead>
+                <Tbody>
+                    {data.map((d,index) => {
+                        return (
+                            <Tr key={d.id} rowid={d.id}>
+                                <Td>{d.id}</Td>
+                                <Td>{d.brand.name}</Td>
+                                <Td>{d.series?.name}</Td>
+                                <Td>{d.name}</Td>
+                                <Td>{d.manufacturer?.name}</Td>
+                                <Td>{d.detail}</Td>
+                                <Td>{d.year}</Td>
+                                <Td>{d.manufacturer?.country?.name}</Td>
+                                <Td>{d.category?.name}</Td>
+                                <Td>{d.code}</Td>
+                                <Td>
+                                    <IconButton
+                                        isDisabled={!actionState[index]}
+                                        isRound={false}
+                                        colorScheme="blue"
+                                        size="sm"
+                                        variant='outline'
+                                        icon={<EditIcon />}
+                                        onClick={(event) => editModel(d.id, event)} />
+                                </Td>
+                                <Td>
+                                    <IconButton
+                                        isDisabled={!actionState[index]}
+                                        isRound={false}
+                                        colorScheme="blue"
+                                        size="sm"
+                                        variant='outline'
+                                        icon={<DeleteIcon />}
+                                        onClick={(e) => deleteModel(d.id, d.name, e)} />
+                                </Td>
+                            </Tr>
+                        )
+                    })}
+                </Tbody>
+            </Table>
+
+            <DeleteConfirmation
+                title={"Delete Model"}
+                message={deleteConfirmationMessage}
+                showDeleteAction={showDeleteAction}
+                afterOpened={() => setShowDeleteAction(false)}
+                afterConfirmed={() => executeDelete()}>
+            </DeleteConfirmation>
+        </>
+    )
 }
 export default ModelTable;
