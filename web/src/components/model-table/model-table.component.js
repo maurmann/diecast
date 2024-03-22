@@ -6,25 +6,27 @@ import DeleteConfirmation from "../delete-confirmation/delete-confirmation.compo
 import { Delete } from "../../views/Models/model-service";
 
 const ModelTable = ({ data }) => {
-
     const navigate = useNavigate();
-
     const [showDeleteAction, setShowDeleteAction] = useState(false);
     const [deleteConfirmationMessage, setDeleteConfirmationMessage] = useState("");
     const [idToDelete, setIdToDelete] = useState(0);
-    const [actionState, setActionState] = useState([]);
-
-    //console.log(data);
+    const [tableData, setTableData] = useState([]);
 
     const initializeActionState = () => {
         const initialState = new Array(data.length).fill(true);
-        //console.log(initialState);
         setActionState(initialState);
     };
 
+    const initializeTableData = () => {
+        let initialTableData = [];
+        for(let i=0;i<data.length;i++){
+            initialTableData.push( {...data[i] , isRowDeleted: false});
+        }
+        setTableData(initialTableData);
+    };
+
     useEffect(() => {
-        initializeActionState();
-        //console.log(actionState);
+        initializeTableData();
     }, [data])
 
     const editModel = (id, event) => {
@@ -36,7 +38,6 @@ const ModelTable = ({ data }) => {
         setShowDeleteAction(true);
         setIdToDelete(id);
     }
-
 
     // TODO
     //
@@ -52,53 +53,17 @@ const ModelTable = ({ data }) => {
         // window.location.reload();
 
         console.log(idToDelete);
-        const index = data.findIndex((item) => item.id == idToDelete);
-        console.log(index);
 
-        if (index>=0){
-            const changedActionState = actionState;
-            changedActionState[index] = false;
-            setActionState(changedActionState);
+        let changedTableData = tableData;
 
-            console.log(actionState);
+        const deletedIndex = tableData.findIndex((item) => item.id == idToDelete);
 
-        }
+        changedTableData[deletedIndex].name = 'deleted';
+        changedTableData[deletedIndex].isRowDeleted = true;
 
-
-        //const ids = deletedIds;
-        //ids.push(idToDelete);
-        //setDeletedIds(ids);
-        //setActionEnabled(false);
-/*
-        const tableRows = tableData;
-
-        console.log(`tableRows: ${tableRows}`);
-
-        const tableRow = tableRows.find((row) => row.id == idToDelete);
-
-        console.log(`tableRow: ${tableRow}`);
-
-        if (tableRow) {
-            tableRow.actionState = false;
-            setTableData(tableRows);
-        }
-
-*/
+        setTableData(changedTableData);
 
     }
-
-
-    //    const isDeleteButtonDisabled = (id) => {
-    //        return isIdDeleted(id);
-    //}
-    //
-    //const isIdDeleted = (id) => {
-    //return deletedIds
-    //&& deletedIds.length > 0
-    //&& deletedIds.indexOf(id) >= 0;
-    //}
-
-    
 
     return (
         <>
@@ -120,7 +85,7 @@ const ModelTable = ({ data }) => {
                     </Tr>
                 </Thead>
                 <Tbody>
-                    {data.map((d,index) => {
+                    {tableData.map((d,index) => {
                         return (
                             <Tr key={d.id} rowid={d.id}>
                                 <Td>{d.id}</Td>
@@ -135,7 +100,7 @@ const ModelTable = ({ data }) => {
                                 <Td>{d.code}</Td>
                                 <Td>
                                     <IconButton
-                                        isDisabled={!actionState[index]}
+                                        isDisabled={d.isRowDeleted}
                                         isRound={false}
                                         colorScheme="blue"
                                         size="sm"
@@ -145,7 +110,7 @@ const ModelTable = ({ data }) => {
                                 </Td>
                                 <Td>
                                     <IconButton
-                                        isDisabled={!actionState[index]}
+                                        isDisabled={d.isRowDeleted}
                                         isRound={false}
                                         colorScheme="blue"
                                         size="sm"
