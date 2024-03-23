@@ -4,6 +4,7 @@ import { SearchIcon } from '@chakra-ui/icons';
 import { useDebounce } from "@uidotdev/usehooks";
 
 const SearchInput = (props) => {
+    
     const [searchTerm, setSearchTerm] = useState("");
     const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
@@ -15,14 +16,14 @@ const SearchInput = (props) => {
         props.search(searchTerm);
     }, [debouncedSearchTerm])
 
-    const getCircularProgressColor = ()=> {
-        return props.isLoading? "green.300" : "white.800"; 
+    const getCircularProgressColor = () => {
+        return props.isLoading ? "green.300" : "white.800";
     }
 
     return (
         <InputGroup>
             <InputLeftElement pointerEvents='none'>
-                <CircularProgress isIndeterminate size="20px" color = {getCircularProgressColor} />
+                <CircularProgress isIndeterminate size="20px" color={getCircularProgressColor} />
             </InputLeftElement>
             <Input
                 type='search'
