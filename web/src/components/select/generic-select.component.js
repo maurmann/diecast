@@ -1,11 +1,6 @@
 import { Select } from '@chakra-ui/react';
-import { useState } from "react";
 
 const GenericSelect = (props) => {
-   
-   
-
-    console.log('generic ' + props.value);
 
     const readSelectedItem = (event) => {
         const index = event.target.options.selectedIndex;

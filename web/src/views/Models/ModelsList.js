@@ -55,6 +55,31 @@ const ModelsList = () => {
     }
 
     useEffect(() => {
+
+        console.log('useeffect da list');
+
+        if (!data || data.length == 0) {
+            const pageNumberFromLs = JSON.parse(localStorage.getItem("pageNumber"));
+            if (pageNumberFromLs) setPageNumber(pageNumberFromLs);
+
+            const searchExpressionFromLs = JSON.parse(localStorage.getItem("searchExpression"));
+
+            console.log('searchExpressionFromLs ' + searchExpressionFromLs);
+
+            setSearchExpression("mustang");
+
+
+            if (searchExpressionFromLs){
+                console.log('vou setar o setSerarchExpression....');
+                
+            } 
+
+            console.log(searchExpression);
+
+        }
+    }, [])
+
+    useEffect(() => {
         fetch(countUrl(),
             {
                 method: "GET"
@@ -80,6 +105,8 @@ const ModelsList = () => {
 
     useEffect(() => {
         setIsLoading(false);
+        localStorage.setItem('pageNumber', JSON.stringify(pageNumber));
+        localStorage.setItem('searchExpression', JSON.stringify(searchExpression));
     }, [data])
 
     return (
@@ -90,7 +117,8 @@ const ModelsList = () => {
                     <Button colorScheme='green' leftIcon={<AddIcon />} size='sm' onClick={newModel} >New Model</Button>
                     <SearchInput
                         search={(value) => search(value)}
-                        isLoading={isLoading}>
+                        isLoading={isLoading}
+                        initialValue={searchExpression}>
                     </SearchInput>
                 </Stack>
             </Box>

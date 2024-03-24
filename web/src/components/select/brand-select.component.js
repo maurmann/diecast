@@ -3,9 +3,7 @@ import GenericSelect from "./generic-select.component";
 import { brandGetAllEndpoint } from "../../constants/endpoints";
 
 const BrandSelect = (props) => {
-
-    console.log('brand ' + props.value);
-
+    
     const [data, setData] = useState([]);
 
     useEffect(() => {

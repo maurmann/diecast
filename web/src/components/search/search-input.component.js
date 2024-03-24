@@ -12,6 +12,14 @@ const SearchInput = (props) => {
         setSearchTerm(e.target.value);
     }
 
+    useEffect(()=>{
+        console.log('dentro do useEffect');
+        console.log('initial value ' + props.initialValue);
+        if (props.initialValue){
+            setSearchTerm(props.initialValue);
+        }
+    },[]);
+
     useEffect(() => {
         props.search(searchTerm);
     }, [debouncedSearchTerm])
