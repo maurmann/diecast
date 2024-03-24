@@ -12,9 +12,9 @@ import { Delete } from "../Models/model-service";
 const ModelsList = () => {
     const navigate = useNavigate();
     const [data, setData] = useState([]);
-    const [pageNumber, setPageNumber] = useState(1);
+    const [pageNumber, setPageNumber] = useState(JSON.parse(localStorage.getItem("pageNumber")) || 1);
     const [rows, setRows] = useState(0);
-    const [searchExpression, setSearchExpression] = useState("");
+    const [searchExpression, setSearchExpression] = useState(JSON.parse(localStorage.getItem("searchExpression")) || "");
     const [isLoading, setIsLoading] = useState(false);
     const [reload, setReload] = useState(0);
 
@@ -45,39 +45,16 @@ const ModelsList = () => {
 
     function search(searchExpression) {
         setIsLoading(true);
-        setPageNumber(1);
         setSearchExpression(searchExpression);
+
+        // if the page number if greather than the available number of pages.....
+        
     }
 
     function deleteModel(id) {
         Delete(id);
         setReload(id);
     }
-
-    useEffect(() => {
-
-        console.log('useeffect da list');
-
-        if (!data || data.length == 0) {
-            const pageNumberFromLs = JSON.parse(localStorage.getItem("pageNumber"));
-            if (pageNumberFromLs) setPageNumber(pageNumberFromLs);
-
-            const searchExpressionFromLs = JSON.parse(localStorage.getItem("searchExpression"));
-
-            console.log('searchExpressionFromLs ' + searchExpressionFromLs);
-
-            setSearchExpression("mustang");
-
-
-            if (searchExpressionFromLs){
-                console.log('vou setar o setSerarchExpression....');
-                
-            } 
-
-            console.log(searchExpression);
-
-        }
-    }, [])
 
     useEffect(() => {
         fetch(countUrl(),

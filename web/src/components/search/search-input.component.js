@@ -4,25 +4,18 @@ import { SearchIcon } from '@chakra-ui/icons';
 import { useDebounce } from "@uidotdev/usehooks";
 
 const SearchInput = (props) => {
-    
-    const [searchTerm, setSearchTerm] = useState("");
+
+    const [searchTerm, setSearchTerm] = useState(props.initialValue || "");
     const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
     const handleChange = (e) => {
         setSearchTerm(e.target.value);
     }
-
-    useEffect(()=>{
-        console.log('dentro do useEffect');
-        console.log('initial value ' + props.initialValue);
-        if (props.initialValue){
-            setSearchTerm(props.initialValue);
-        }
-    },[]);
-
+    
     useEffect(() => {
         props.search(searchTerm);
     }, [debouncedSearchTerm])
+    
 
     const getCircularProgressColor = () => {
         return props.isLoading ? "green.300" : "white.800";
@@ -37,7 +30,8 @@ const SearchInput = (props) => {
                 type='search'
                 placeholder='Search models by code or name'
                 bg={'gray.100'}
-                onChange={handleChange}>
+                onChange={handleChange}
+                value={searchTerm}>
             </Input>
             <InputRightElement>
                 <SearchIcon></SearchIcon>
