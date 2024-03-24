@@ -48,7 +48,7 @@ const ModelsList = () => {
         setSearchExpression(searchExpression);
 
         // if the page number if greather than the available number of pages.....
-        
+        // how to check and keep when restored from local storage
     }
 
     function deleteModel(id) {
