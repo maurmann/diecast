@@ -47,7 +47,11 @@ const ModelsList = () => {
         setIsLoading(true);
         setSearchExpression(searchExpression);
 
-        console.log('rows: '+ rows);
+
+
+        //setPageNumber(1);
+
+        console.log('rows: ' + rows);
         console.log('pageNumber: ' + pageNumber);
 
         // if the page number if greather than the available number of pages.....
@@ -55,8 +59,8 @@ const ModelsList = () => {
 
         console.log('resetedPageNumber: ' + resetedPageNumber);
 
-        //if (resetedPageNumber != pageNumber)
-        //    setPageNumber(resetedPageNumber);
+        if (resetedPageNumber != pageNumber)
+            setPageNumber(resetedPageNumber);
     }
 
     function deleteModel(id) {
@@ -74,7 +78,7 @@ const ModelsList = () => {
             .then((data) => {
                 setRows(data);
             })
-    }, [reload, searchExpression]);
+    }, [reload, pageNumber, searchExpression]);
 
     useEffect(() => {
         fetch(listUrl(),
@@ -89,10 +93,10 @@ const ModelsList = () => {
     }, [reload, pageNumber, searchExpression]);
 
     useEffect(() => {
-        setIsLoading(false);
         localStorage.setItem('pageNumber', JSON.stringify(pageNumber));
         localStorage.setItem('searchExpression', JSON.stringify(searchExpression));
         localStorage.setItem('rows', JSON.stringify(rows));
+        setIsLoading(false);
     }, [data])
 
     return (
