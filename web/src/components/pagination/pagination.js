@@ -1,10 +1,22 @@
 import { Button, Stack } from "@chakra-ui/react"
 
+const CalculateNumberOfPages = (rows) => {
+    return Math.floor(rows / 10) + (rows % 10 > 0 ? 1 : 0);
+};
+
+export const ResetPageNumber = (rows, pageNumber) => {
+    const numberOfPages = CalculateNumberOfPages(rows);
+
+    if (pageNumber > numberOfPages)
+        return 1;
+
+    return pageNumber;
+}
+
 const Pagination = (props) => {
     const MAX_PAGES_TO_RENDER = 5;
     const MIDDLE_POSITION = 3;
-    const numberOfPages = Math.floor(props.rows / 10) + (props.rows % 10 > 0 ? 1 : 0);
-
+    const numberOfPages = CalculateNumberOfPages(props.rows);
     const pages = [];
 
     // if number of pages is lower or equal than the number of pages to display

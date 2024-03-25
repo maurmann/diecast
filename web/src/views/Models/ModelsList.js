@@ -4,7 +4,7 @@ import PageTitle from "../../components/PageTitle";
 import { useEffect, useState } from "react";
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import Pagination from "../../components/pagination/pagination";
+import Pagination, { ResetPageNumber } from "../../components/pagination/pagination";
 import SearchInput from "../../components/search/search-input.component";
 import ModelTable from "../../components/model-table/model-table.component";
 import { Delete } from "../Models/model-service";
@@ -13,7 +13,7 @@ const ModelsList = () => {
     const navigate = useNavigate();
     const [data, setData] = useState([]);
     const [pageNumber, setPageNumber] = useState(JSON.parse(localStorage.getItem("pageNumber")) || 1);
-    const [rows, setRows] = useState(0);
+    const [rows, setRows] = useState(JSON.parse(localStorage.getItem("rows")) || 0);
     const [searchExpression, setSearchExpression] = useState(JSON.parse(localStorage.getItem("searchExpression")) || "");
     const [isLoading, setIsLoading] = useState(false);
     const [reload, setReload] = useState(0);
@@ -47,8 +47,16 @@ const ModelsList = () => {
         setIsLoading(true);
         setSearchExpression(searchExpression);
 
+        console.log('rows: '+ rows);
+        console.log('pageNumber: ' + pageNumber);
+
         // if the page number if greather than the available number of pages.....
-        // how to check and keep when restored from local storage
+        const resetedPageNumber = ResetPageNumber(rows, pageNumber);
+
+        console.log('resetedPageNumber: ' + resetedPageNumber);
+
+        //if (resetedPageNumber != pageNumber)
+        //    setPageNumber(resetedPageNumber);
     }
 
     function deleteModel(id) {
@@ -84,6 +92,7 @@ const ModelsList = () => {
         setIsLoading(false);
         localStorage.setItem('pageNumber', JSON.stringify(pageNumber));
         localStorage.setItem('searchExpression', JSON.stringify(searchExpression));
+        localStorage.setItem('rows', JSON.stringify(rows));
     }, [data])
 
     return (
