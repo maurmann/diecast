@@ -1,11 +1,13 @@
 import { Injectable } from '@nestjs/common';
-import { model } from '@prisma/client';
 import { ModelCreateDto } from 'src/model/model.create.schema';
 import { PrismaService } from 'src/prisma.service';
+import { ModelResponseDto, Pagination } from './model.response.dto';
 
 @Injectable()
 export class ModelService {
   constructor(private prisma: PrismaService) {}
+
+  PageSize: number = 10;
 
   async getById(id: number) {
     return this.prisma.model.findUnique({
@@ -13,12 +15,15 @@ export class ModelService {
     });
   }
 
-  async getAll(pageNumber: number, search: string): Promise<model[]> {
+  async getAll(pageNumber: number, search: string): Promise<ModelResponseDto> {
     pageNumber = pageNumber < 1 ? 1 : pageNumber;
+    const rows: number = await this.count(search);
+    const numberOfPages: number = this.CalculateNumberOfPages(rows);
+    if (pageNumber > numberOfPages) pageNumber = 1;
 
-    return this.prisma.model.findMany({
-      skip: 10 * (pageNumber - 1),
-      take: 10,
+    const data = await this.prisma.model.findMany({
+      skip: this.PageSize * (pageNumber - 1),
+      take: this.PageSize,
       include: {
         brand: true,
         series: true,
@@ -33,6 +38,11 @@ export class ModelService {
         ...this.buildSearchCondition(search),
       },
     });
+
+    return new ModelResponseDto(
+      data,
+      new Pagination(this.PageSize, pageNumber, rows, numberOfPages),
+    );
   }
 
   async count(search: string): Promise<any> {
@@ -106,5 +116,11 @@ export class ModelService {
     };
 
     return condition;
+  }
+
+  CalculateNumberOfPages(rows: number) {
+    return (
+      Math.floor(rows / this.PageSize) + (rows % this.PageSize > 0 ? 1 : 0)
+    );
   }
 }

@@ -14,18 +14,13 @@ const ModelsList = () => {
     const [data, setData] = useState([]);
     const [pageNumber, setPageNumber] = useState(JSON.parse(localStorage.getItem("pageNumber")) || 1);
     const [rows, setRows] = useState(JSON.parse(localStorage.getItem("rows")) || 0);
+    const [pages, setPages] = useState(JSON.parse(localStorage.getItem("pages")) || 0)
     const [searchExpression, setSearchExpression] = useState(JSON.parse(localStorage.getItem("searchExpression")) || "");
     const [isLoading, setIsLoading] = useState(false);
     const [reload, setReload] = useState(0);
 
     const newModel = () => {
         navigate('/models/form');
-    }
-
-    function countUrl() {
-        let url = "http://localhost:3001/models/count";
-        url += addSearch("?");
-        return url;
     }
 
     function listUrl() {
@@ -46,39 +41,12 @@ const ModelsList = () => {
     function search(searchExpression) {
         setIsLoading(true);
         setSearchExpression(searchExpression);
-
-
-
-        //setPageNumber(1);
-
-        console.log('rows: ' + rows);
-        console.log('pageNumber: ' + pageNumber);
-
-        // if the page number if greather than the available number of pages.....
-        const resetedPageNumber = ResetPageNumber(rows, pageNumber);
-
-        console.log('resetedPageNumber: ' + resetedPageNumber);
-
-        if (resetedPageNumber != pageNumber)
-            setPageNumber(resetedPageNumber);
     }
 
     function deleteModel(id) {
         Delete(id);
         setReload(id);
     }
-
-    useEffect(() => {
-        fetch(countUrl(),
-            {
-                method: "GET"
-            })
-            .then((response) =>
-                response.json())
-            .then((data) => {
-                setRows(data);
-            })
-    }, [reload, pageNumber, searchExpression]);
 
     useEffect(() => {
         fetch(listUrl(),
@@ -88,7 +56,9 @@ const ModelsList = () => {
             .then((response) =>
                 response.json())
             .then((data) => {
-                setData(data);
+                setData(data.Data);
+                setRows(data.Pagination.Rows);
+                setPageNumber(data.Pagination.PageNumber);
             })
     }, [reload, pageNumber, searchExpression]);
 

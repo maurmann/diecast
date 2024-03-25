@@ -29,15 +29,17 @@ export class ModelController {
     @Query('pageNumber', ParseIntPipe) pageNumber: number,
     @Query('search') search: string,
   ) {
-    const models = await this.modelService.getAll(pageNumber, search);
-    return models;
+    const modelResponseDto = await this.modelService.getAll(pageNumber, search);
+    return modelResponseDto;
   }
 
+  /*
   @Get('/count')
   async count(@Query('search') search: string) {
     const data = await this.modelService.count(search);
     return data;
   }
+  */
 
   @Post()
   @UsePipes(new ZodValidationPipe(modelCreateSchema))
