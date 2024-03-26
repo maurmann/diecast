@@ -68,14 +68,14 @@ const ModelsForm = () => {
             .then((response) => response.json())
             .then((data) => {
 
-                setName(data.name ?? "");
+                setName(data.name ?? null);
                 setBrandId(data.brand_id ?? 0);
                 setSeriesId(data.series_id ?? 0);
                 setManufacturerId(data.manufacturer_id ?? 0);
-                setYear(data.year ?? "");
+                setYear(data.year ?? null);
                 setCategoryId(data.category_id ?? 0);
-                setDetail(data.detail ?? "");
-                setCode(data.code ?? "");
+                setDetail(data.detail ?? null);
+                setCode(data.code ?? null);
             })
     }, []);
 
