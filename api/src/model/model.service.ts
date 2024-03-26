@@ -112,6 +112,12 @@ export class ModelService {
             mode: 'insensitive',
           },
         },
+        {
+          detail: {
+            contains: search,
+            mode: 'insensitive',
+          },
+        },
       ],
     };
 
