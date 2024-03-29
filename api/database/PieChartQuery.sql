@@ -32,7 +32,7 @@ with
 		select name,value,sorting from other
 		order by sorting asc, value desc
 	) 
-select name,value from data
+select name,value::integer from data
 
 
 
