@@ -1,6 +1,6 @@
 import { Stat, StatLabel, StatNumber, StatHelpText, StatGroup, Card, CardBody } from '@chakra-ui/react'
 import PageTitle from '../components/PageTitle';
-import { LineChart, Line,PieChart,Tooltip,Pie, ResponsiveContainer } from 'recharts';
+import { LineChart, Line,PieChart,Tooltip,Pie, ResponsiveContainer,Cell } from 'recharts';
 import { useEffect, useState } from 'react';
 
 const data = [{ name: 'Page A', uv: 400, pv: 2400, amt: 2400 },
@@ -8,9 +8,13 @@ const data = [{ name: 'Page A', uv: 400, pv: 2400, amt: 2400 },
 { name: 'Page C', uv: 380, pv: 2100, amt: 2100 }
 ];
 
+const pie = [ { "name": "Hot Wheels", "value": 290 }, { "name": "Tomica", "value": 28 }, { "name": "Matchbox", "value": 16 }, { "name": "Greenlight", "value": 9 }, { "name": "Majorette", "value": 4 }, { "name": "other", "value": 14 } ] 
+
+const pieColors = ["#0B5345","#0E6655","#117A65","#138D75","#73C6B6","#D0ECE7"]
+
 const Home = () => {
 
-    const [brandPieChat, setBrandPieChart] = useState();
+    const [brandPieChart, setBrandPieChart] = useState();
 
     useEffect(() => {
         fetch('http://localhost:3001/dashboard/brand/piechart',
@@ -31,25 +35,18 @@ const Home = () => {
             <Card>
                 <CardBody>
 
-<ResponsiveContainer>
-                    <PieChart width={400} height={400}>
-                        <Pie
-                            dataKey="value"
-                            isAnimationActive={false}
-                            data={brandPieChat}
-                            cx="50%"
-                            cy="50%"
-                            outerRadius={80}
-                            fill="#8884d8"
-                            label="name"
-                        />
-                        <Tooltip />
-                    </PieChart>
-                    </ResponsiveContainer>
+                <PieChart width={730} height={250}>
+                <Pie data={brandPieChart} dataKey="value" nameKey="name" label>
+                {
+                    pieColors.map((color, index) => (
+                        <Cell key={`cell-${index}`} fill={color} />
+                    ))
+                }
+                </Pie>
+                <Tooltip></Tooltip>
+            </PieChart>
 
-                    <LineChart width={400} height={400} data={data}>
-                        <Line type="monotone" dataKey="uv" stroke="#8884d8" />
-                    </LineChart>
+                    
 
                     <StatGroup>
                         <Stat>

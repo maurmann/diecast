@@ -28,7 +28,7 @@ export class DashboardService {
             from 
                 model m),
         other as (
-            select 'other' as name,
+            select 'Other' as name,
                 (
                     (select sum(total.value) as value from total) - 
                     (select sum(grouped.value) as value from grouped) 
@@ -41,7 +41,7 @@ export class DashboardService {
             order by sorting asc, value desc
         ) 
     select 
-        name,value 
+        name,value::integer 
     from data`;
   }
 }
