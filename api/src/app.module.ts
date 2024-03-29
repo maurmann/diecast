@@ -8,6 +8,7 @@ import { ModelModule } from './model/model.module';
 import { SeriesModule } from './series/series.module';
 import { ManufacturerModule } from './manufacturer/manufacturer.module';
 import { CategoryModule } from './category/category.module';
+import { DashboardModule } from './dashboard/dashboard.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { CategoryModule } from './category/category.module';
     SeriesModule,
     ManufacturerModule,
     CategoryModule,
+    DashboardModule,
     ConfigModule.forRoot({ isGlobal: true }),
   ],
   controllers: [AppController],
