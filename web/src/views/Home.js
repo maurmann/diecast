@@ -1,57 +1,36 @@
-import { Stat, StatLabel, StatNumber, StatHelpText, StatGroup, Card, CardBody } from '@chakra-ui/react'
+import { Stat, StatLabel, StatNumber, StatHelpText, StatGroup, Card, CardBody, HStack, Box  } from '@chakra-ui/react'
 import PageTitle from '../components/PageTitle';
-import { useEffect, useState } from 'react';
-import ReactEcharts from "echarts-for-react"; 
+import PieChart from '../components/pie-chart/pie-chart.component';
 
 const Home = () => {
 
-    const [brandPieChart, setBrandPieChart] = useState();
-
-    useEffect(() => {
-        fetch('http://localhost:3001/dashboard/brand/piechart',
-            {
-                method: "GET"
-            })
-            .then((response) =>
-                response.json())
-            .then((data) => {
-                setBrandPieChart(data);
-            })
-    }, []);
-
-    const option = {
-        title: {
-          text: 'Brands',
-          left: 'center'
-        },
-        tooltip: {
-          trigger: 'item'
-        },
-        series: [
-          {
-            name: 'Brands',
-            type: 'pie',
-            radius: '60%',
-            data: brandPieChart,
-            emphasis: {
-              itemStyle: {
-                shadowBlur: 10,
-                shadowOffsetX: 0,
-                shadowColor: 'rgba(0, 0, 0, 0.5)'
-              }
-            }
-          }
-        ]
-    };
-
-
     return (
-        <div>
+        <>
             <PageTitle Title="Home" SubTitle="Dashboard"></PageTitle>
             <Card>
-                <CardBody width={600} height={600}>
+                <CardBody>
 
-                <ReactEcharts option={option} />
+                    <HStack spacing='24px'>
+                        <Box w='40px' h='40px' bg='yellow.200'>
+                            1
+                        </Box>
+                        <Box w='40px' h='40px' bg='tomato'>
+                            2
+                        </Box>
+                        <Box w='40px' h='40px' bg='pink.100'>
+                            3
+                        </Box>
+                    </HStack>
+
+                    <PieChart
+                        title={"Brands"}
+                        route={"http://localhost:3001/dashboard/brand/piechart"}>
+                    </PieChart>
+
+                    <PieChart
+                        title={"Manufacturers"}
+                        route={"http://localhost:3001/dashboard/manufacturer/piechart"}>
+                    </PieChart>
 
                     <StatGroup>
                         <Stat>
@@ -65,9 +44,10 @@ const Home = () => {
                             <StatHelpText>Premium</StatHelpText>
                         </Stat>
                     </StatGroup>
+
                 </CardBody>
             </Card>
-        </div >
+        </>
     )
 };
 
