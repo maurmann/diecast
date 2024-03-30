@@ -27,7 +27,7 @@ const PieChart = (props) => {
         },
         series: [
           {
-            name: 'pie',
+            name: props.series,
             type: 'pie',
             radius: '60%',
             data: pieChartData,

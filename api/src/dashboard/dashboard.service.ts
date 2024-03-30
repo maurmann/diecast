@@ -80,6 +80,8 @@ export class DashboardService {
             model mo 
         join 
             category ca on mo.category_id = ca.id
+        where
+            mo.category_id is not null
         group by 
             ca.name 
         order by 

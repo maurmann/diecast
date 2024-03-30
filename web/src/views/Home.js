@@ -21,19 +21,22 @@ const Home = () => {
                             <GridItem>
                                 <PieChart
                                     title={"Brands"}
-                                    route={"http://localhost:3001/dashboard/brand/piechart"}>
+                                    route={"http://localhost:3001/dashboard/brand/piechart"}
+                                    series={"brand"}>
                                 </PieChart>
                             </GridItem>
                             <GridItem>
                                 <PieChart
                                     title={"Manufacturers"}
-                                    route={"http://localhost:3001/dashboard/manufacturer/piechart"}>
+                                    route={"http://localhost:3001/dashboard/manufacturer/piechart"}
+                                    series={"manufacturer"}>
                                 </PieChart>
                             </GridItem>
                             <GridItem>
                                 <PieChart
                                     title={"Categories"}
-                                    route={"http://localhost:3001/dashboard/category/piechart"}>
+                                    route={"http://localhost:3001/dashboard/category/piechart"}
+                                    series={"category"}>
                                 </PieChart>
                             </GridItem>
                         </Grid>
