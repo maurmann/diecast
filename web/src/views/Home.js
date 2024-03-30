@@ -1,4 +1,4 @@
-import { Stat, StatLabel, StatNumber, StatHelpText, StatGroup, Card, CardBody, HStack, Box  } from '@chakra-ui/react'
+import { Stat, StatLabel, StatNumber, StatHelpText, StatGroup, Card, CardBody, HStack, Box, VStack, StackDivider, Grid, GridItem } from '@chakra-ui/react'
 import PageTitle from '../components/PageTitle';
 import PieChart from '../components/pie-chart/pie-chart.component';
 
@@ -10,27 +10,43 @@ const Home = () => {
             <Card>
                 <CardBody>
 
-                    <HStack spacing='24px'>
-                        <Box w='40px' h='40px' bg='yellow.200'>
-                            1
-                        </Box>
-                        <Box w='40px' h='40px' bg='tomato'>
-                            2
-                        </Box>
-                        <Box w='40px' h='40px' bg='pink.100'>
-                            3
-                        </Box>
-                    </HStack>
+                    <VStack
+                        divider={<StackDivider borderColor='gray.200' />}
+                        spacing={4}
+                        align='stretch'>
 
-                    <PieChart
-                        title={"Brands"}
-                        route={"http://localhost:3001/dashboard/brand/piechart"}>
-                    </PieChart>
 
-                    <PieChart
-                        title={"Manufacturers"}
-                        route={"http://localhost:3001/dashboard/manufacturer/piechart"}>
-                    </PieChart>
+
+                        <Grid templateColumns='repeat(3, 1fr)' gap={2}>
+                            <GridItem>
+                                <PieChart
+                                    title={"Brands"}
+                                    route={"http://localhost:3001/dashboard/brand/piechart"}>
+                                </PieChart>
+                            </GridItem>
+                            <GridItem>
+                                <PieChart
+                                    title={"Manufacturers"}
+                                    route={"http://localhost:3001/dashboard/manufacturer/piechart"}>
+                                </PieChart>
+                            </GridItem>
+                            <GridItem>
+                                <PieChart
+                                    title={"Categories"}
+                                    route={"http://localhost:3001/dashboard/category/piechart"}>
+                                </PieChart>
+                            </GridItem>
+                        </Grid>
+
+
+
+
+
+                    </VStack>
+
+
+
+
 
                     <StatGroup>
                         <Stat>

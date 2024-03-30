@@ -16,4 +16,10 @@ export class DashboardController {
     const data = await this.dashboardService.getManufacturerPieChart();
     return data;
   }
+
+  @Get('/category/piechart')
+  async getCategoryPieChart() {
+    const data = await this.dashboardService.getCategoryPieChart();
+    return data;
+  }
 }

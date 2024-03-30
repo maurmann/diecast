@@ -1,19 +1,17 @@
-/* eslint-disable prettier/prettier */
 import { Injectable } from '@nestjs/common';
 import { PieChart } from './pie.chart';
 import { PrismaService } from 'src/prisma.service';
 
-
 @Injectable()
 export class DashboardService {
-    constructor(private prisma: PrismaService) { }
+  constructor(private prisma: PrismaService) {}
 
-    openQueryForPie(){
-        return `with grouped as (`;
-    }
+  openQueryForPie() {
+    return `with grouped as (`;
+  }
 
-    closeQueryForPie(){
-        return `),
+  closeQueryForPie() {
+    return `),
             total as (
                 select 
                     'total' as name, count(*) as value 
@@ -35,10 +33,10 @@ export class DashboardService {
         select 
             name,value::integer 
         from data`;
-    }
+  }
 
-    async getBrandPieChart(): Promise<PieChart[]> {
-        return await this.prisma.$queryRawUnsafe(`
+  async getBrandPieChart(): Promise<PieChart[]> {
+    return await this.prisma.$queryRawUnsafe(`
             ${this.openQueryForPie()}
                 select
                     b.name, count(*) as value, 1 as sorting
@@ -53,10 +51,10 @@ export class DashboardService {
                 limit 5
             ${this.closeQueryForPie()}
         `);
-    }
+  }
 
-    async getManufacturerPieChart(): Promise<PieChart[]> {
-        return await this.prisma.$queryRawUnsafe(`
+  async getManufacturerPieChart(): Promise<PieChart[]> {
+    return await this.prisma.$queryRawUnsafe(`
             ${this.openQueryForPie()}
                 select
                     ma.name, count(*) as value, 1 as sorting
@@ -71,7 +69,23 @@ export class DashboardService {
                 limit 5
             ${this.closeQueryForPie()}
         `);
-    }
+  }
 
-
+  async getCategoryPieChart(): Promise<PieChart[]> {
+    return await this.prisma.$queryRawUnsafe(`
+        ${this.openQueryForPie()}
+        select
+            ca.name, count(*) as value, 1 as sorting
+        from 
+            model mo 
+        join 
+            category ca on mo.category_id = ca.id
+        group by 
+            ca.name 
+        order by 
+            count(*) desc
+        limit 5
+        ${this.closeQueryForPie()}
+    `);
+  }
 }
