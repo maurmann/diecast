@@ -15,8 +15,6 @@ const Home = () => {
                         spacing={4}
                         align='stretch'>
 
-
-
                         <Grid templateColumns='repeat(3, 1fr)' gap={2}>
                             <GridItem>
                                 <PieChart
@@ -41,9 +39,50 @@ const Home = () => {
                             </GridItem>
                         </Grid>
 
-
-
-
+                        <Grid templateColumns='repeat(8, 1fr)' gap={2}>
+                            <GridItem>
+                                <Stat>
+                                    <StatLabel>Hot Wheels</StatLabel>
+                                    <StatNumber>274</StatNumber>
+                                    <StatHelpText>Mainline</StatHelpText>
+                                </Stat>
+                            </GridItem>
+                            <GridItem><Stat>
+                                <StatLabel>Hot Wheels</StatLabel>
+                                <StatNumber>274</StatNumber>
+                                <StatHelpText>Mainline</StatHelpText>
+                            </Stat></GridItem>
+                            <GridItem><Stat>
+                                <StatLabel>Hot Wheels</StatLabel>
+                                <StatNumber>274</StatNumber>
+                                <StatHelpText>Mainline</StatHelpText>
+                            </Stat></GridItem>
+                            <GridItem><Stat>
+                                <StatLabel>Hot Wheels</StatLabel>
+                                <StatNumber>274</StatNumber>
+                                <StatHelpText>Mainline</StatHelpText>
+                            </Stat></GridItem>
+                            <GridItem><Stat>
+                                <StatLabel>Hot Wheels</StatLabel>
+                                <StatNumber>274</StatNumber>
+                                <StatHelpText>Mainline</StatHelpText>
+                            </Stat></GridItem>
+                            <GridItem><Stat>
+                                <StatLabel>Hot Wheels</StatLabel>
+                                <StatNumber>274</StatNumber>
+                                <StatHelpText>Mainline</StatHelpText>
+                            </Stat></GridItem>
+                            <GridItem><Stat>
+                                <StatLabel>Hot Wheels</StatLabel>
+                                <StatNumber>274</StatNumber>
+                                <StatHelpText>Mainline</StatHelpText>
+                            </Stat></GridItem>
+                            <GridItem><Stat>
+                                <StatLabel>Hot Wheels</StatLabel>
+                                <StatNumber>274</StatNumber>
+                                <StatHelpText>Mainline</StatHelpText>
+                            </Stat></GridItem>
+                        </Grid>
 
                     </VStack>
 
@@ -51,18 +90,6 @@ const Home = () => {
 
 
 
-                    <StatGroup>
-                        <Stat>
-                            <StatLabel>Hot Wheels</StatLabel>
-                            <StatNumber>274</StatNumber>
-                            <StatHelpText>Mainline</StatHelpText>
-                        </Stat>
-                        <Stat>
-                            <StatLabel>Hot Wheels</StatLabel>
-                            <StatNumber>34</StatNumber>
-                            <StatHelpText>Premium</StatHelpText>
-                        </Stat>
-                    </StatGroup>
 
                 </CardBody>
             </Card>
