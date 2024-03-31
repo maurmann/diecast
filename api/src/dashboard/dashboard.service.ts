@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PieChart } from './pie.chart';
 import { PrismaService } from 'src/prisma.service';
+import { Statistic } from './statistic';
 
 @Injectable()
 export class DashboardService {
@@ -86,8 +87,23 @@ export class DashboardService {
             ca.name 
         order by 
             count(*) desc
-        limit 5
+        limit 15
         ${this.closeQueryForPie()}
     `);
+  }
+
+  async getBrandAndSeriesStatistics(): Promise<Statistic[]> {
+    return await this.prisma.$queryRaw`select 
+            b.name as category,
+            coalesce(s.name,'N/A') as subcategory,
+            count(*)::integer as value
+        from model m 
+            join brand b on m.brand_id = b.id
+            left join series s on m.series_id = s.id
+        group by 
+            b.name,s.name 
+        order by 
+            count(*) desc
+        limit 8`;
   }
 }

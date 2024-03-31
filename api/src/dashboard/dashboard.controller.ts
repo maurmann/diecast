@@ -22,4 +22,10 @@ export class DashboardController {
     const data = await this.dashboardService.getCategoryPieChart();
     return data;
   }
+
+  @Get('/brand/series/statistics')
+  async getStatistics() {
+    const data = await this.dashboardService.getBrandAndSeriesStatistics();
+    return data;
+  }
 }
