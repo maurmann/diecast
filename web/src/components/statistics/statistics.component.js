@@ -18,7 +18,7 @@ const Statistics = () => {
     }, []);
 
     return (
-        <Grid templateColumns='repeat(8, 1fr)' gap={2}>
+        <Grid templateColumns='repeat(10, 1fr)' gap={2}>
             {statisticsData.map((d, index) => {
                 return (
                     <GridItem key="k-{index}">

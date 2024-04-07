@@ -103,7 +103,6 @@ export class DashboardService {
         group by 
             b.name,s.name 
         order by 
-            count(*) desc
-        limit 8`;
+            count(*) desc`;
   }
 }
