@@ -1,4 +1,6 @@
-﻿using QuestPDF.Fluent;
+﻿using pdf.Database;
+using pdf.Entities;
+using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
 
@@ -6,14 +8,21 @@ namespace pdf
 {
     internal class Builder
     {
-        public static  void Build()
+        public static void Build()
         {
-            Database database = new Database();
-            var data = database.Read();
-            CreatePdf(data);
+            BrandDb brandDb = new BrandDb();
+            var brands = brandDb.Read();
+
+            ModelDb modelDb = new ModelDb();
+            foreach (var brand in brands)
+            {
+                modelDb.BrandId = brand.Id;
+                var models = modelDb.Read();
+                BuildByBrand(models, brand);
+            }
         }
 
-        private static void CreatePdf(IEnumerable<Data> data)
+        private static void BuildByBrand(IEnumerable<Model> models, Brand brand)
         {
             Document.Create(container =>
             {
@@ -22,10 +31,10 @@ namespace pdf
                     page.Size(PageSizes.A4);
                     page.Margin(2, Unit.Centimetre);
                     page.PageColor(Colors.White);
-                    page.DefaultTextStyle(x => x.FontSize(12));
+                    page.DefaultTextStyle(x => x.FontSize(10));
 
                     page.Header()
-                        .Text($"Diecast Collection - {DateTime.Now}")
+                        .Text($"{brand.Name} - {DateTime.Now.ToString("dd/MM/yyyy")}")
                         .SemiBold()
                         .FontSize(16);
 
@@ -35,17 +44,19 @@ namespace pdf
                         {
                             table.ColumnsDefinition(columns =>
                             {
-                                columns.ConstantColumn(10, Unit.Centimetre);
-                                columns.ConstantColumn(3, Unit.Centimetre);
-                                columns.ConstantColumn(3,Unit.Centimetre);
+                                columns.ConstantColumn(2, Unit.Centimetre);
+                                columns.ConstantColumn(9, Unit.Centimetre);
+                                columns.ConstantColumn(4, Unit.Centimetre);
+                                columns.ConstantColumn(2, Unit.Centimetre);
                             });
 
                             uint row = 1;
-                            foreach (var item in data) 
+                            foreach (var model in models)
                             {
-                                table.Cell().Row(row).Column(1).Text(item.Model);
-                                table.Cell().Row(row).Column(2).Text(item.Brand);
-                                table.Cell().Row(row).Column(3).Text(item.Code);
+                                table.Cell().Row(row).Column(1).Text(model.Code);
+                                table.Cell().Row(row).Column(2).Text(model.Name);
+                                table.Cell().Row(row).Column(3).Text(model.Manufacturer);
+                                table.Cell().Row(row).Column(4).Text(model.Year);
                                 row++;
                             }
                         });
@@ -59,8 +70,21 @@ namespace pdf
                         });
                 });
             })
-            .GeneratePdf("C:\\Users\\adria\\OneDrive\\Desktop\\models.pdf");
+            .GeneratePdf(GetFileNameAndPath(brand));
         }
 
+        private static string GetFileNameAndPath(Brand brand)
+        {
+            return $"{GetPath()}{brand.Name}.pdf";
+        }
+
+        private static string GetPath()
+        {
+            var path = Constants.DEFAULT_PATH;
+            if (!path.EndsWith(@"\"))
+                path += @"\";
+
+            return path;
+        }
     }
 }
