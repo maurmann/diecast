@@ -2,6 +2,8 @@
 {
     internal static class Constants
     {
-        public const string DEFAULT_PATH = @"C:\Users\adria\OneDrive\Desktop\DieCast";
+        public const string DefaultPath = @"G:\My Drive\Die Cast\Colecao\";
+        public const string GenerateByBrand = "brand";
+        public const string GenerateByManufacturer = "manufacturer";
     }
 }

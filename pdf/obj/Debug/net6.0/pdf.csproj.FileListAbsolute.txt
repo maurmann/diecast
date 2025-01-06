@@ -47,9 +47,9 @@ C:\dev\prj\diecast\pdf\obj\Debug\net6.0\pdf.AssemblyInfoInputs.cache
 C:\dev\prj\diecast\pdf\obj\Debug\net6.0\pdf.AssemblyInfo.cs
 C:\dev\prj\diecast\pdf\obj\Debug\net6.0\pdf.csproj.CoreCompileInputs.cache
 C:\dev\prj\diecast\pdf\obj\Debug\net6.0\pdf.sourcelink.json
-C:\dev\prj\diecast\pdf\obj\Debug\net6.0\pdf.csproj.CopyComplete
 C:\dev\prj\diecast\pdf\obj\Debug\net6.0\pdf.dll
 C:\dev\prj\diecast\pdf\obj\Debug\net6.0\refint\pdf.dll
 C:\dev\prj\diecast\pdf\obj\Debug\net6.0\pdf.pdb
 C:\dev\prj\diecast\pdf\obj\Debug\net6.0\pdf.genruntimeconfig.cache
 C:\dev\prj\diecast\pdf\obj\Debug\net6.0\ref\pdf.dll
+C:\dev\prj\diecast\pdf\obj\Debug\net6.0\pdf.csproj.Up2Date

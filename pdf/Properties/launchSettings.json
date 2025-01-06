@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "pdf": {
+      "commandName": "Project",
+      "commandLineArgs": "manufacturer"
+    }
+  }
+}
