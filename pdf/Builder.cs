@@ -122,38 +122,37 @@ namespace pdf
                 container.Page(page =>
                 {
                     page.Size(PageSizes.A4);
-                    page.Margin(2, Unit.Centimetre);
+                    page.Margin(1, Unit.Centimetre);
                     page.PageColor(Colors.White);
                     page.DefaultTextStyle(x => x.FontSize(10));
 
                     page.Header()
                         .Text($"Models by Manufacturer - {DateTime.Now.ToString("dd/MM/yyyy")}")
                         .SemiBold()
-                        .FontSize(16);
+                        .FontSize(14);
 
                     page.Content()
                         .PaddingVertical(1, Unit.Centimetre)
-                        .Border((float)0.3, Unit.Centimetre)
-                        .BorderColor(Color.FromRGB(0,0,0))
                         .Table(table =>
                         {
                             table.ColumnsDefinition(columns =>
                             {
                                 columns.ConstantColumn(3, Unit.Centimetre);
-                                columns.ConstantColumn(5, Unit.Centimetre);
+                                columns.ConstantColumn(7, Unit.Centimetre);
                                 columns.ConstantColumn(2, Unit.Centimetre);
-                                columns.ConstantColumn(3, Unit.Centimetre);
-                                columns.ConstantColumn(3, Unit.Centimetre);
+                                columns.ConstantColumn(6, Unit.Centimetre);
                             });
+
+                            
 
                             uint row = 1;
                             foreach (var model in models)
                             {
+                                
                                 table.Cell().Row(row).Column(1).Text(model.Manufacturer??"");
                                 table.Cell().Row(row).Column(2).Text(model.Model??"");
                                 table.Cell().Row(row).Column(3).Text(model.Year.ToString());
                                 table.Cell().Row(row).Column(4).Text(model.Detail);
-                                table.Cell().Row(row).Column(5).Text(model.Brand);
                                 row++;
                             }
                         });
