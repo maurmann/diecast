@@ -137,20 +137,19 @@ namespace pdf
                         {
                             table.ColumnsDefinition(columns =>
                             {
-                                columns.ConstantColumn(3, Unit.Centimetre);
-                                columns.ConstantColumn(7, Unit.Centimetre);
-                                columns.ConstantColumn(2, Unit.Centimetre);
-                                columns.ConstantColumn(6, Unit.Centimetre);
+                                columns.ConstantColumn(2.8f, Unit.Centimetre);
+                                columns.ConstantColumn(6.7f, Unit.Centimetre);
+                                columns.ConstantColumn(1.6f, Unit.Centimetre);
+                                columns.ConstantColumn(7f, Unit.Centimetre);
                             });
 
-                            
+
 
                             uint row = 1;
                             foreach (var model in models)
                             {
-                                
-                                table.Cell().Row(row).Column(1).Text(model.Manufacturer??"");
-                                table.Cell().Row(row).Column(2).Text(model.Model??"");
+                                table.Cell().Row(row).Column(1).Text(model.Manufacturer ?? "");
+                                table.Cell().Row(row).Column(2).Text(model.Model ?? "");
                                 table.Cell().Row(row).Column(3).Text(model.Year.ToString());
                                 table.Cell().Row(row).Column(4).Text(model.Detail);
                                 row++;
